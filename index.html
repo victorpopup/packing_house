@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Packing House - Controle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <h1>Packing House</h1>
+</header>
+
+<!-- MENU -->
+<nav>
+    <button onclick="mostrarTela('estoque')">📦 Estoque</button>
+    <button onclick="mostrarTela('qualidade')">✅ Controle de Qualidade</button>
+    <button onclick="mostrarTela('recepcao')">🍎 Recepção de Fruta</button>
+    <button onclick="mostrarTela('producao')">🏭 Produção</button>
+</nav>
+
+<!-- TELA INICIAL -->
+<img src="image/fundo_menu.jpg" class="imagem-central" id="telaInicial">
+
+<!-- TELA ESTOQUE -->
+<!-- TELA ESTOQUE -->
+<section id="estoque" class="tela hidden">
+
+    <!-- CABEÇALHO DA TELA -->
+    <div class="tela-header">
+        <h2>📦 Estoque</h2>
+        <button class="btn-voltar" onclick="mostrarTela('inicial')">⬅ Voltar</button>
+    </div>
+
+    <div class="estoque-grid">
+
+        <!-- CADASTRO -->
+        <div class="card">
+            <h3>Adicionar Material</h3>
+            <input type="text" id="nomeMaterial" placeholder="Nome do material">
+            <button class="btn-cadastrar" onclick="adicionarMaterial()">Cadastrar</button>
+        </div>
+
+        <!-- MOVIMENTAÇÃO -->
+        <div class="card">
+            <h3>Movimentação</h3>
+            <select id="materialMov">
+                <option value="">Selecione o material</option>
+            </select>
+            <input type="number" id="quantidadeMov" placeholder="Quantidade">
+            <div class="linha">
+                <button class="mov entrada" onclick="movimentar('entrada')">➕ Entrada</button>
+                <button class="mov saida" onclick="movimentar('saida')">➖ Saída</button>
+            </div>
+        </div>
+
+        <!-- LISTA -->
+        <div class="card full-width">
+            <h3>Estoque Atual</h3>
+            <ul id="listaEstoque"></ul>
+        </div>
+
+    </div>
+
+    <!-- HISTÓRICO DE TRANSAÇÕES -->
+<div class="card full-width">
+    <h3>Histórico de Transações</h3>
+    <table id="historicoTransacoes">
+        <thead>
+            <tr>
+                <th>Data/Hora</th>
+                <th>Material</th>
+                <th>Tipo</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- As transações serão adicionadas aqui via JS -->
+        </tbody>
+    </table>
+</div>
+
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
