@@ -26,7 +26,8 @@ function mostrarTela(telaNome) {
         'estoque': 'Estoque',
         'qualidade': 'Controle de Qualidade',
         'recepcao': 'Recepção de Fruta',
-        'producao': 'Produção'
+        'producao': 'Produção',
+        'configuracao': 'Configurações'
     };
     pageTitle.textContent = titles[telaNome] || 'Packing House';
     
@@ -43,6 +44,11 @@ function mostrarTela(telaNome) {
         // Atualizar dashboard se voltando para ele
         if (telaNome === 'dashboard' && typeof estoque !== 'undefined') {
             estoque.atualizarDashboard();
+        }
+        
+        // Atualizar configurações se voltando para ela
+        if (telaNome === 'configuracao' && typeof estoque !== 'undefined') {
+            atualizarPaginaConfiguracao();
         }
     }
     
@@ -167,3 +173,48 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('🏭 Packing House iniciado');
 });
+
+// ==================== CONFIGURAÇÕES ====================
+function atualizarPaginaConfiguracao() {
+    if (typeof estoque === 'undefined') return;
+    
+    // Atualizar total de materiais
+    const totalMateriais = Object.keys(estoque.materiais).length;
+    document.getElementById('configTotalMateriais').textContent = totalMateriais;
+    
+    // Atualizar total de transações
+    const totalTransacoes = estoque.transacoes.length;
+    document.getElementById('configTotalTransacoes').textContent = totalTransacoes;
+    
+    // Atualizar data/hora
+    const agora = new Date();
+    const dataFormatada = agora.toLocaleDateString('pt-BR');
+    const horaFormatada = agora.toLocaleTimeString('pt-BR');
+    document.getElementById('configDataHora').textContent = `${dataFormatada} ${horaFormatada}`;
+}
+
+function mostrarConfirmacaoLimparHistorico() {
+    const detalhes = `
+        <p style="color: #ef4444;"><strong>⚠️ ATENÇÃO:</strong> Esta ação é irreversível!</p>
+        <p>Todos os registros de transações serão deletados permanentemente.</p>
+        <p style="margin-top: 10px;"><strong>Total de transações a serem removidas:</strong> ${estoque?.transacoes?.length || 0}</p>
+    `;
+    
+    mostrarModal(
+        'Confirmar Limpeza de Histórico',
+        'Você tem certeza que deseja limpar todo o histórico de transações?',
+        detalhes,
+        'exclusao',
+        limparHistorico
+    );
+}
+
+function limparHistorico() {
+    estoque.transacoes = [];
+    salvarDados('estoque_transacoes', []);
+    estoque.atualizarHistorico();
+    estoque.atualizarDashboard();
+    atualizarPaginaConfiguracao();
+    mostrarNotificacao('Histórico de transações removido com sucesso', 'success');
+    mostrarTela('configuracao');
+}

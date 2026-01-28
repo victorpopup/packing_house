@@ -30,6 +30,10 @@
                 <span class="icon">🏭</span>
                 <span class="label">Produção</span>
             </button>
+            <button class="nav-item" data-menu="configuracao" onclick="mostrarTela('configuracao')">
+                <span class="icon">⚙️</span>
+                <span class="label">Configuração</span>
+            </button>
         </nav>
     </aside>
 
@@ -144,29 +148,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- ATALHOS RÁPIDOS -->
-                <div class="card card-full">
-                    <div class="card-header">
-                        <h4>🚀 Atalhos Rápidos</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="shortcuts-grid">
-                            <button class="btn btn-primary" onclick="mostrarTela('estoque')">
-                                <span>📦</span> Ir para Estoque
-                            </button>
-                            <button class="btn btn-primary" onclick="mostrarTela('qualidade')">
-                                <span>✅</span> Controle de Qualidade
-                            </button>
-                            <button class="btn btn-primary" onclick="mostrarTela('recepcao')">
-                                <span>🍎</span> Recepção de Fruta
-                            </button>
-                            <button class="btn btn-primary" onclick="mostrarTela('producao')">
-                                <span>🏭</span> Produção
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </section>
 
             <!-- ESTOQUE PAGE -->
@@ -269,13 +250,119 @@
                 <div class="page-header">
                     <div>
                         <h3>Controle de Qualidade</h3>
-                        <p class="subtitle">Módulo em desenvolvimento</p>
+                        <p class="subtitle">Registre e monitore a qualidade dos produtos</p>
                     </div>
                     <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
                 </div>
-                <div class="empty-state">
-                    <span class="empty-icon">✅</span>
-                    <p>Este módulo estará disponível em breve</p>
+
+                <div class="cards-grid">
+                    <!-- CARD: INFORMAÇÕES BÁSICAS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>👥 Responsáveis</h4>
+                        </div>
+                        <div class="card-body">
+                            <label style="display: block; margin-bottom: 10px; font-weight: bold;">Colhedora (Ficha/Nome)</label>
+                            <input type="text" id="qualColhedora" placeholder="Digite a ficha ou nome da colhedora" class="form-input">
+                            
+                            <label style="display: block; margin-top: 15px; margin-bottom: 10px; font-weight: bold;">Embaladora (Ficha/Nome)</label>
+                            <input type="text" id="qualEmbaladora" placeholder="Digite a ficha ou nome da embaladora" class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- CARD: PROBLEMAS ENCONTRADOS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>⚠️ Problemas Encontrados</h4>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: grid; grid-template-columns: 1fr 80px; gap: 10px; align-items: end; margin-bottom: 10px;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Tipo de Problema</label>
+                                    <select id="qualTipoProblema" class="form-input">
+                                        <option value="Mosca da Fruta">🪰 Mosca da Fruta</option>
+                                        <option value="Peso Baixo">⚖️ Peso Baixo</option>
+                                        <option value="Mancha/Lesão">🍎 Mancha/Lesão</option>
+                                        <option value="Podridão">🦠 Podridão</option>
+                                        <option value="Deformidade">🔄 Deformidade</option>
+                                        <option value="Praga">🐛 Praga</option>
+                                        <option value="Amassado">💥 Amassado</option>
+                                        <option value="Outro">❓ Outro</option>
+                                    </select>
+                                </div>
+                                <input type="number" id="qualQuantidadeProblema" placeholder="Qtd" class="form-input" min="0" value="1">
+                            </div>
+                            <button class="btn btn-primary btn-block" onclick="adicionarProblema()">Adicionar Problema</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LISTA DE PROBLEMAS REGISTRADOS -->
+                <div class="card card-full">
+                    <div class="card-header">
+                        <h4>📋 Problemas Desta Caixa</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo de Problema</th>
+                                        <th>Quantidade</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelaProblemas"></tbody>
+                            </table>
+                        </div>
+                        <p id="mensagemSemProblemas" style="text-align: center; color: var(--text-secondary); padding: 20px;">Nenhum problema registrado</p>
+                    </div>
+                </div>
+
+                <!-- BOTÕES DE AÇÃO -->
+                <div class="cards-grid">
+                    <button class="btn btn-success btn-block" onclick="registrarCaixa()" style="padding: 12px; font-size: 16px;">
+                        ✅ Registrar Caixa/Contentor
+                    </button>
+                    <button class="btn btn-info btn-block" onclick="limparFormulario()" style="padding: 12px; font-size: 16px;">
+                        🔄 Limpar Formulário
+                    </button>
+                </div>
+
+                <!-- HISTÓRICO DE INSPEÇÕES -->
+                <div class="card card-full">
+                    <div class="card-header">
+                        <h4>📊 Histórico de Inspeções</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Data/Hora</th>
+                                        <th>Colhedora</th>
+                                        <th>Embaladora</th>
+                                        <th>Total de Problemas</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelaHistoricoQualidade"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RELATÓRIO EM PDF -->
+                <div class="card card-full">
+                    <div class="card-header">
+                        <h4>📄 Gerar Relatório</h4>
+                    </div>
+                    <div class="card-body">
+                        <p style="margin-bottom: 15px; color: var(--text-secondary);">Gere um relatório em PDF com todos os registros de controle de qualidade.</p>
+                        <button class="btn btn-primary" onclick="gerarRelatorioPDF()">
+                            📥 Baixar Relatório em PDF
+                        </button>
+                    </div>
                 </div>
             </section>
 
@@ -306,6 +393,53 @@
                     <p>Este módulo estará disponível em breve</p>
                 </div>
             </section>
+
+            <!-- CONFIGURAÇÃO PAGE -->
+            <section id="configuracao" class="page">
+                <div class="page-header">
+                    <div>
+                        <h3>Configurações</h3>
+                        <p class="subtitle">Gerenciamento do sistema</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
+                </div>
+
+                <div class="cards-grid">
+                    <!-- CARD: LIMPEZA DE HISTÓRICO -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>⚠️ Gerenciar Dados</h4>
+                        </div>
+                        <div class="card-body">
+                            <p style="margin-bottom: 15px; color: var(--text-secondary);">Limpe o histórico de transações para remover todos os registros. <strong>Esta ação não pode ser desfeita.</strong></p>
+                            <button class="btn btn-danger" onclick="mostrarConfirmacaoLimparHistorico()">🗑️ Limpar Histórico</button>
+                        </div>
+                    </div>
+
+                    <!-- CARD: ESTATÍSTICAS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>📊 Informações do Sistema</h4>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div>
+                                    <span style="font-weight: bold;">Total de Materiais:</span>
+                                    <span id="configTotalMateriais" style="margin-left: 10px; color: var(--primary);">0</span>
+                                </div>
+                                <div>
+                                    <span style="font-weight: bold;">Total de Transações:</span>
+                                    <span id="configTotalTransacoes" style="margin-left: 10px; color: var(--primary);">0</span>
+                                </div>
+                                <div>
+                                    <span style="font-weight: bold;">Data/Hora:</span>
+                                    <span id="configDataHora" style="margin-left: 10px; color: var(--text-secondary);">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 
@@ -330,6 +464,7 @@
     <!-- SCRIPTS -->
     <script src="js/utils/helpers.js"></script>
     <script src="js/modules/estoque.js"></script>
+    <script src="js/modules/qualidade.js"></script>
     <script src="js/main.js"></script>
     <script src="js/app.js"></script>
 </body>

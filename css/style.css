@@ -469,6 +469,17 @@ body {
     background-color: #dc2626;
 }
 
+.btn-info {
+    background-color: var(--info);
+    color: white;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+}
+
+.btn-info:hover:not(:disabled) {
+    background-color: #2563eb;
+}
+
 .btn-block {
     width: 100%;
 }
