@@ -347,7 +347,8 @@ tbody tr:hover {
 
     .container-principal {
         padding: 0 15px;
-        background-attachment: scroll;
+        background-attachment: fixed;
+        background-position: center;
     }
 
     .tela {
