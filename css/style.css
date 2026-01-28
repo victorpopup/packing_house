@@ -76,6 +76,20 @@ nav button:hover {
     padding: 0 50px;
 }
 
+/* FUNDO PC */
+@media (min-width: 769px) {
+    .container-principal:not(.inicial) {
+        background-image: url('image/fundo_pc.png') !important;
+    }
+}
+
+/* FUNDO MOBILE */
+@media (max-width: 768px) {
+    .container-principal:not(.inicial) {
+        background-image: url('image/fundo_mobile.png') !important;
+    }
+}
+
 .container-principal::before {
     content: '';
     position: absolute;

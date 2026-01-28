@@ -196,6 +196,7 @@ function movimentar(tipo) {
 function mostrarTela(telaNome) {
     const conteudos = document.querySelectorAll('.conteudo');
     const nav = document.querySelector('nav');
+    const container = document.getElementById('containerPrincipal');
 
     conteudos.forEach(conteudo => {
         conteudo.classList.add('hidden');
@@ -208,12 +209,14 @@ function mostrarTela(telaNome) {
         });
         document.body.classList.remove('com-conteudo');
         nav.classList.remove('hidden');
+        container.classList.add('inicial');
     } else {
         const tela = document.getElementById(telaNome);
         if (tela) {
             tela.classList.remove('hidden');
             document.body.classList.add('com-conteudo');
             nav.classList.add('hidden');
+            container.classList.remove('inicial');
         }
     }
 }
