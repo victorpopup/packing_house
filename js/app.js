@@ -205,10 +205,12 @@ function mostrarTela(telaNome) {
         conteudos.forEach(conteudo => {
             conteudo.classList.add('hidden');
         });
+        document.body.classList.remove('com-conteudo');
     } else {
         const tela = document.getElementById(telaNome);
         if (tela) {
             tela.classList.remove('hidden');
+            document.body.classList.add('com-conteudo');
         }
     }
 }
