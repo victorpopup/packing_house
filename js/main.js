@@ -13,10 +13,16 @@ function mostrarTela(telaNome) {
     menuItems.forEach(item => item.classList.remove('active'));
     
     // Adicionar classe active ao item clicado
-    document.querySelector(`[data-menu="${telaNome}"]`)?.classList.add('active');
+    if (telaNome !== 'dashboard') {
+        document.querySelector(`[data-menu="${telaNome}"]`)?.classList.add('active');
+    } else {
+        // Dashboard não tem item no menu
+        menuItems[0]?.classList.add('active');
+    }
     
     // Atualizar título baseado na página
     const titles = {
+        'dashboard': 'Dashboard',
         'estoque': 'Estoque',
         'qualidade': 'Controle de Qualidade',
         'recepcao': 'Recepção de Fruta',
@@ -33,6 +39,11 @@ function mostrarTela(telaNome) {
     const page = document.getElementById(telaNome);
     if (page) {
         page.classList.add('active');
+        
+        // Atualizar dashboard se voltando para ele
+        if (telaNome === 'dashboard' && typeof estoque !== 'undefined') {
+            estoque.atualizarDashboard();
+        }
     }
     
     // Fechar sidebar em mobile

@@ -150,6 +150,78 @@ class Estoque {
         if (totalItens) {
             totalItens.textContent = Object.values(this.materiais).reduce((a, b) => a + b, 0);
         }
+        
+        // Atualizar dashboard
+        this.atualizarDashboard();
+    }
+
+    atualizarDashboard() {
+        const totalItens = Object.values(this.materiais).reduce((a, b) => a + b, 0);
+        const totalMateriais = Object.keys(this.materiais).length;
+        const totalTransacoes = this.transacoes.length;
+        const totalEntradas = this.transacoes.filter(t => t.tipo === 'entrada').length;
+        const totalSaidas = this.transacoes.filter(t => t.tipo === 'saida').length;
+        
+        // Encontrar material com maior quantidade
+        let maiorMaterial = '-';
+        let maiorQtd = 0;
+        Object.entries(this.materiais).forEach(([mat, qtd]) => {
+            if (qtd > maiorQtd) {
+                maiorMaterial = mat;
+                maiorQtd = qtd;
+            }
+        });
+
+        // Atualizar elementos do dashboard
+        const elements = {
+            'dashTotalItens': totalItens,
+            'dashTotalMateriais': totalMateriais,
+            'dashTotalTransacoes': totalTransacoes,
+            'dashTotalEntradas': totalEntradas,
+            'dashTotalSaidas': totalSaidas
+        };
+
+        Object.entries(elements).forEach(([id, valor]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = valor;
+        });
+
+        // Atualizar material com maior quantidade
+        const maiorEl = document.getElementById('dashMaiorMaterial');
+        if (maiorEl) {
+            maiorEl.textContent = maiorMaterial !== '-' ? `${maiorMaterial} (${maiorQtd} un)` : '-';
+        }
+
+        // Atualizar últimas transações
+        this.atualizarUltimasTransacoes();
+    }
+
+    atualizarUltimasTransacoes() {
+        const tbody = document.getElementById('dashUltimasTransacoes');
+        if (!tbody) return;
+
+        tbody.innerHTML = '';
+
+        if (this.transacoes.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">Nenhuma transação registrada</td></tr>';
+            return;
+        }
+
+        // Pegar últimas 5 transações
+        this.transacoes.slice().reverse().slice(0, 5).forEach(transacao => {
+            const tr = document.createElement('tr');
+            const badge = transacao.tipo === 'entrada' 
+                ? '<span class="badge badge-success">➕ Entrada</span>'
+                : '<span class="badge badge-warning">➖ Saída</span>';
+            
+            tr.innerHTML = `
+                <td>${formatarDataHora(new Date(transacao.data))}</td>
+                <td>${transacao.material}</td>
+                <td>${badge}</td>
+                <td>${transacao.quantidade}</td>
+            `;
+            tbody.appendChild(tr);
+        });
     }
 
     salvarEstoque() {

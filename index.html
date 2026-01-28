@@ -11,7 +11,7 @@
     <!-- SIDEBAR NAVIGATION -->
     <aside class="sidebar" id="sidebar">
         <div class="logo-container">
-            <h1>🏭 Packing House</h1>
+            <h1 onclick="mostrarTela('dashboard')" style="cursor: pointer; margin: 0; padding: 0;">🏭 Packing House</h1>
         </div>
         <nav class="nav-menu">
             <button class="nav-item active" data-menu="estoque" onclick="mostrarTela('estoque')">
@@ -266,33 +266,66 @@
 
             <!-- OUTROS PAGES (PLACEHOLDER) -->
             <section id="qualidade" class="page">
+                <div class="page-header">
+                    <div>
+                        <h3>Controle de Qualidade</h3>
+                        <p class="subtitle">Módulo em desenvolvimento</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
+                </div>
                 <div class="empty-state">
                     <span class="empty-icon">✅</span>
-                    <h3>Controle de Qualidade</h3>
-                    <p>Módulo em desenvolvimento</p>
+                    <p>Este módulo estará disponível em breve</p>
                 </div>
             </section>
 
             <section id="recepcao" class="page">
+                <div class="page-header">
+                    <div>
+                        <h3>Recepção de Fruta</h3>
+                        <p class="subtitle">Módulo em desenvolvimento</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
+                </div>
                 <div class="empty-state">
                     <span class="empty-icon">🍎</span>
-                    <h3>Recepção de Fruta</h3>
-                    <p>Módulo em desenvolvimento</p>
+                    <p>Este módulo estará disponível em breve</p>
                 </div>
             </section>
 
             <section id="producao" class="page">
+                <div class="page-header">
+                    <div>
+                        <h3>Produção</h3>
+                        <p class="subtitle">Módulo em desenvolvimento</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
+                </div>
                 <div class="empty-state">
                     <span class="empty-icon">🏭</span>
-                    <h3>Produção</h3>
-                    <p>Módulo em desenvolvimento</p>
+                    <p>Este módulo estará disponível em breve</p>
                 </div>
             </section>
         </div>
     </main>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="toast"></div>
+    <!-- MODAL -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Confirmação</h3>
+                <button class="modal-close" onclick="fecharModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">Mensagem do modal</p>
+                <div id="modalDetails" class="modal-details"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+                <button class="btn btn-primary" id="modalConfirmBtn" onclick="confirmarAcao()">Confirmar</button>
+            </div>
+        </div>
+    </div>
 
     <!-- SCRIPTS -->
     <script src="js/utils/helpers.js"></script>
