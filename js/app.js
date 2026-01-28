@@ -1,41 +1,7 @@
 /* filepath: d:\Documents\meus_projetos\packing_house\js\app.js */
 /**
- * APP.JS - Arquivo único com toda a lógica
+ * APP.JS - Lógica principal da aplicação
  */
-
-// ==================== HELPERS ====================
-function formatarDataHora(data) {
-    return new Intl.DateTimeFormat('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    }).format(data);
-}
-
-function salvarDados(chave, dados) {
-    localStorage.setItem(chave, JSON.stringify(dados));
-}
-
-function recuperarDados(chave) {
-    const dados = localStorage.getItem(chave);
-    return dados ? JSON.parse(dados) : null;
-}
-
-function validarEntrada(valor) {
-    return valor && valor.trim() !== '';
-}
-
-function limparInput(idInput) {
-    document.getElementById(idInput).value = '';
-}
-
-function mostrarAlerta(mensagem, tipo = 'sucesso') {
-    console.log(`[${tipo.toUpperCase()}] ${mensagem}`);
-    alert(mensagem);
-}
 
 // ==================== CLASSE ESTOQUE ====================
 class Estoque {
@@ -49,36 +15,37 @@ class Estoque {
         this.atualizarSelectMateriais();
         this.atualizarListaEstoque();
         this.atualizarHistorico();
+        this.atualizarEstatisticas();
     }
 
     adicionarMaterial(nome) {
         if (!validarEntrada(nome)) {
-            mostrarAlerta('Digite um nome válido para o material', 'erro');
+            mostrarNotificacao('Digite um nome válido para o material', 'error');
             return false;
         }
 
         if (this.materiais[nome]) {
-            mostrarAlerta('Material já existe no estoque', 'aviso');
+            mostrarNotificacao('Material já existe no estoque', 'warning');
             return false;
         }
 
         this.materiais[nome] = 0;
         this.salvarEstoque();
         this.inicializar();
-        mostrarAlerta(`Material "${nome}" adicionado com sucesso`, 'sucesso');
+        mostrarNotificacao(`Material "${nome}" adicionado com sucesso`, 'success');
         return true;
     }
 
     movimentar(material, quantidade, tipo) {
         if (!validarEntrada(material) || quantidade <= 0) {
-            mostrarAlerta('Material e quantidade inválidos', 'erro');
+            mostrarNotificacao('Material e quantidade inválidos', 'error');
             return false;
         }
 
         const qtd = parseInt(quantidade);
 
         if (tipo === 'saida' && this.materiais[material] < qtd) {
-            mostrarAlerta('Quantidade insuficiente no estoque', 'erro');
+            mostrarNotificacao('Quantidade insuficiente no estoque', 'error');
             return false;
         }
 
@@ -89,7 +56,7 @@ class Estoque {
         }
 
         this.transacoes.push({
-            data: new Date(),
+            data: new Date().toISOString(),
             material: material,
             tipo: tipo,
             quantidade: qtd
@@ -97,7 +64,119 @@ class Estoque {
 
         this.salvarEstoque();
         this.inicializar();
-        mostrarAlerta(`${tipo === 'entrada' ? 'Entrada' : 'Saída'} registrada com sucesso`, 'sucesso');
+        const msg = tipo === 'entrada' ? 'Entrada' : 'Saída';
+        mostrarNotificacao(`${msg} de ${qtd} un. registrada com sucesso`, 'success');
+        return true;
+    }
+
+    deletarMaterial(material) {
+        if (confirm(`Tem certeza que deseja deletar "${material}"?`)) {
+            delete this.materiais[material];
+            this.salvarEstoque();
+            this.inicializar();
+            mostrarNotificacao(`Material "${material}" removido`, 'success');
+        }
+    }
+
+    atualizarSelectMateriais() {
+        const select = document.getElementById('materialMov');
+        select.innerHTML = '<option value="">Selecione o material</option>';
+
+        Object.keys(this.materiais).forEach(material => {
+            const option = document.createElement('option');
+            option.value = material;
+            option.textContent = material;
+            select.appendChild(option);
+        });
+    }
+
+    atualizarListaEstoque() {
+        const tbody = document.querySelector('#listaEstoque') || document.getElementById('listaEstoque');
+        if (!tbody) return;
+        
+        tbody.innerHTML = '';
+
+        if (Object.keys(this.materiais).length === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #999;">Nenhum material cadastrado</td></tr>';
+            return;
+        }
+
+        Object.entries(this.materiais).forEach(([material, quantidade]) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${material}</td>
+                <td>
+                    <span class="badge ${quantidade > 0 ? 'badge-success' : 'badge-warning'}">
+                        ${quantidade} un
+                    </span>
+                </td>
+                <td>
+                    <button onclick="estoque.deletarMaterial('${material}')" class="btn btn-danger">🗑️ Remover</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    atualizarHistorico() {
+        const tbody = document.querySelector('#historicoTransacoes tbody');
+        if (!tbody) return;
+        
+        tbody.innerHTML = '';
+
+        if (this.transacoes.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">Nenhuma transação registrada</td></tr>';
+            return;
+        }
+
+        this.transacoes.slice().reverse().forEach(transacao => {
+            const tr = document.createElement('tr');
+            const badge = transacao.tipo === 'entrada' 
+                ? '<span class="badge badge-success">➕ Entrada</span>'
+                : '<span class="badge badge-warning">➖ Saída</span>';
+            
+            tr.innerHTML = `
+                <td>${formatarDataHora(new Date(transacao.data))}</td>
+                <td>${transacao.material}</td>
+                <td>${badge}</td>
+                <td>${transacao.quantidade}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    atualizarEstatisticas() {
+        const totalItens = document.getElementById('totalItens');
+        if (totalItens) {
+            totalItens.textContent = Object.values(this.materiais).reduce((a, b) => a + b, 0);
+        }
+    }
+
+    salvarEstoque() {
+        salvarDados('estoque_materiais', this.materiais);
+        salvarDados('estoque_transacoes', this.transacoes);
+    }
+}
+
+// ==================== INSTÂNCIA GLOBAL ====================
+const estoque = new Estoque();
+
+// ==================== FUNÇÕES GLOBAIS ====================
+function adicionarMaterial() {
+    const nome = document.getElementById('nomeMaterial').value;
+    if (estoque.adicionarMaterial(nome)) {
+        limparInput('nomeMaterial');
+    }
+}
+
+function movimentar(tipo) {
+    const material = document.getElementById('materialMov').value;
+    const quantidade = document.getElementById('quantidadeMov').value;
+    if (estoque.movimentar(material, quantidade, tipo)) {
+        document.getElementById('materialMov').value = '';
+        limparInput('quantidadeMov');
+    }
+}
         return true;
     }
 
@@ -190,34 +269,6 @@ function movimentar(tipo) {
     if (estoque.movimentar(material, quantidade, tipo)) {
         document.getElementById('materialMov').value = '';
         limparInput('quantidadeMov');
-    }
-}
-
-function mostrarTela(telaNome) {
-    const conteudos = document.querySelectorAll('.conteudo');
-    const nav = document.querySelector('nav');
-    const container = document.getElementById('containerPrincipal');
-
-    conteudos.forEach(conteudo => {
-        conteudo.classList.add('hidden');
-    });
-
-    if (telaNome === 'inicial') {
-        // Voltar à tela inicial - mostrar apenas o fundo
-        conteudos.forEach(conteudo => {
-            conteudo.classList.add('hidden');
-        });
-        document.body.classList.remove('com-conteudo');
-        nav.classList.remove('hidden');
-        container.classList.add('inicial');
-    } else {
-        const tela = document.getElementById(telaNome);
-        if (tela) {
-            tela.classList.remove('hidden');
-            document.body.classList.add('com-conteudo');
-            nav.classList.add('hidden');
-            container.classList.remove('inicial');
-        }
     }
 }
 

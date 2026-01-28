@@ -2,88 +2,302 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Packing House - Controle</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Packing House - Sistema de Controle de Estoque Profissional">
+    <title>Packing House | Controle de Estoque</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-container">
+            <h1>🏭 Packing House</h1>
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-item active" data-menu="estoque" onclick="mostrarTela('estoque')">
+                <span class="icon">📦</span>
+                <span class="label">Estoque</span>
+            </button>
+            <button class="nav-item" data-menu="qualidade" onclick="mostrarTela('qualidade')">
+                <span class="icon">✅</span>
+                <span class="label">Qualidade</span>
+            </button>
+            <button class="nav-item" data-menu="recepcao" onclick="mostrarTela('recepcao')">
+                <span class="icon">🍎</span>
+                <span class="label">Recepção</span>
+            </button>
+            <button class="nav-item" data-menu="producao" onclick="mostrarTela('producao')">
+                <span class="icon">🏭</span>
+                <span class="label">Produção</span>
+            </button>
+        </nav>
+    </aside>
 
-<!-- HEADER -->
-<header>
-    <h1>Packing House</h1>
-</header>
-
-<!-- MENU -->
-<nav>
-    <button onclick="mostrarTela('estoque')">📦 Estoque</button>
-    <button onclick="mostrarTela('qualidade')">✅ Controle de Qualidade</button>
-    <button onclick="mostrarTela('recepcao')">🍎 Recepção de Fruta</button>
-    <button onclick="mostrarTela('producao')">🏭 Produção</button>
-</nav>
-
-<!-- CONTAINER PRINCIPAL COM FUNDO -->
-<div id="containerPrincipal" class="container-principal inicial" style="background-image: url('image/fundo_menu_inicial.png');">
-
-    <!-- TELA ESTOQUE -->
-    <section id="estoque" class="tela conteudo hidden">
-
-        <!-- CABEÇALHO DA TELA -->
-        <div class="tela-header">
-            <h2>📦 Estoque</h2>
-            <button class="btn-voltar" onclick="mostrarTela('inicial')">⬅ Voltar</button>
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <h2 id="pageTitle">Estoque</h2>
+            <div class="user-info">
+                <span class="time" id="currentTime"></span>
+            </div>
         </div>
 
-        <div class="estoque-grid">
-
-            <!-- CADASTRO -->
-            <div class="card">
-                <h3>Adicionar Material</h3>
-                <input type="text" id="nomeMaterial" placeholder="Nome do material">
-                <button class="btn-cadastrar" onclick="adicionarMaterial()">Cadastrar</button>
-            </div>
-
-            <!-- MOVIMENTAÇÃO -->
-            <div class="card">
-                <h3>Movimentação</h3>
-                <select id="materialMov">
-                    <option value="">Selecione o material</option>
-                </select>
-                <input type="number" id="quantidadeMov" placeholder="Quantidade">
-                <div class="linha">
-                    <button class="mov entrada" onclick="movimentar('entrada')">➕ Entrada</button>
-                    <button class="mov saida" onclick="movimentar('saida')">➖ Saída</button>
+        <!-- PAGE CONTAINER -->
+        <div class="page-container">
+            <!-- DASHBOARD PAGE (HOME) -->
+            <section id="dashboard" class="page active">
+                <div class="page-header">
+                    <div>
+                        <h3>Dashboard</h3>
+                        <p class="subtitle">Resumo geral do seu sistema</p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- LISTA -->
-            <div class="card full-width">
-                <h3>Estoque Atual</h3>
-                <ul id="listaEstoque"></ul>
-            </div>
+                <div class="cards-grid">
+                    <!-- CARD: TOTAL DE ITENS -->
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat">
+                                <span class="stat-icon">📦</span>
+                                <span class="stat-label">Total de Itens</span>
+                                <span class="stat-value" id="dashTotalItens">0</span>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- CARD: TOTAL DE MATERIAIS -->
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat">
+                                <span class="stat-icon">📋</span>
+                                <span class="stat-label">Materiais Cadastrados</span>
+                                <span class="stat-value" id="dashTotalMateriais">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD: TOTAL TRANSAÇÕES -->
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat">
+                                <span class="stat-icon">🔄</span>
+                                <span class="stat-label">Total de Transações</span>
+                                <span class="stat-value" id="dashTotalTransacoes">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD: ENTRADAS -->
+                    <div class="card stat-card stat-success">
+                        <div class="card-body">
+                            <div class="stat">
+                                <span class="stat-icon">➕</span>
+                                <span class="stat-label">Entradas</span>
+                                <span class="stat-value" id="dashTotalEntradas">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD: SAÍDAS -->
+                    <div class="card stat-card stat-warning">
+                        <div class="card-body">
+                            <div class="stat">
+                                <span class="stat-icon">➖</span>
+                                <span class="stat-label">Saídas</span>
+                                <span class="stat-value" id="dashTotalSaidas">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD: MATERIAL COM MAIS QUANTIDADE -->
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat">
+                                <span class="stat-icon">⭐</span>
+                                <span class="stat-label">Material com Mais Itens</span>
+                                <span class="stat-value-text" id="dashMaiorMaterial">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESUMO RECENTE -->
+                <div class="card card-full">
+                    <div class="card-header">
+                        <h4>📊 Últimas Transações</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Data/Hora</th>
+                                        <th>Material</th>
+                                        <th>Tipo</th>
+                                        <th>Quantidade</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashUltimasTransacoes"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ATALHOS RÁPIDOS -->
+                <div class="card card-full">
+                    <div class="card-header">
+                        <h4>🚀 Atalhos Rápidos</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="shortcuts-grid">
+                            <button class="btn btn-primary" onclick="mostrarTela('estoque')">
+                                <span>📦</span> Ir para Estoque
+                            </button>
+                            <button class="btn btn-primary" onclick="mostrarTela('qualidade')">
+                                <span>✅</span> Controle de Qualidade
+                            </button>
+                            <button class="btn btn-primary" onclick="mostrarTela('recepcao')">
+                                <span>🍎</span> Recepção de Fruta
+                            </button>
+                            <button class="btn btn-primary" onclick="mostrarTela('producao')">
+                                <span>🏭</span> Produção
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ESTOQUE PAGE -->
+            <section id="estoque" class="page">
+                <div class="page-header">
+                    <div>
+                        <h3>Gestão de Estoque</h3>
+                        <p class="subtitle">Cadastre e monitore seus materiais em tempo real</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
+                </div>
+
+                <div class="cards-grid">
+                    <!-- CARD: ADICIONAR MATERIAL -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>➕ Novo Material</h4>
+                        </div>
+                        <div class="card-body">
+                            <input type="text" id="nomeMaterial" placeholder="Nome do material" class="form-input">
+                            <button class="btn btn-primary btn-block" onclick="adicionarMaterial()">Adicionar</button>
+                        </div>
+                    </div>
+
+                    <!-- CARD: MOVIMENTAÇÃO -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>🔄 Movimentação</h4>
+                        </div>
+                        <div class="card-body">
+                            <select id="materialMov" class="form-input">
+                                <option value="">Selecione o material</option>
+                            </select>
+                            <input type="number" id="quantidadeMov" placeholder="Quantidade" class="form-input" min="1">
+                            <div class="button-group">
+                                <button class="btn btn-success" onclick="movimentar('entrada')">Entrada</button>
+                                <button class="btn btn-warning" onclick="movimentar('saida')">Saída</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD: RESUMO DE ESTOQUE -->
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="stat">
+                                <span class="stat-label">Total de Itens</span>
+                                <span class="stat-value" id="totalItens">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ESTOQUE ATUAL -->
+                <div class="card card-full">
+                    <div class="card-header">
+                        <h4>📊 Estoque Atual</h4>
+                        <input type="text" id="buscarEstoque" placeholder="🔍 Buscar..." class="form-input search-input">
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Material</th>
+                                        <th>Quantidade</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaEstoque"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HISTÓRICO -->
+                <div class="card card-full">
+                    <div class="card-header">
+                        <h4>📋 Histórico de Transações</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Data/Hora</th>
+                                        <th>Material</th>
+                                        <th>Tipo</th>
+                                        <th>Quantidade</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historicoTransacoes"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- OUTROS PAGES (PLACEHOLDER) -->
+            <section id="qualidade" class="page">
+                <div class="empty-state">
+                    <span class="empty-icon">✅</span>
+                    <h3>Controle de Qualidade</h3>
+                    <p>Módulo em desenvolvimento</p>
+                </div>
+            </section>
+
+            <section id="recepcao" class="page">
+                <div class="empty-state">
+                    <span class="empty-icon">🍎</span>
+                    <h3>Recepção de Fruta</h3>
+                    <p>Módulo em desenvolvimento</p>
+                </div>
+            </section>
+
+            <section id="producao" class="page">
+                <div class="empty-state">
+                    <span class="empty-icon">🏭</span>
+                    <h3>Produção</h3>
+                    <p>Módulo em desenvolvimento</p>
+                </div>
+            </section>
         </div>
+    </main>
 
-        <!-- HISTÓRICO DE TRANSAÇÕES -->
-        <div class="card full-width">
-            <h3>Histórico de Transações</h3>
-            <table id="historicoTransacoes">
-                <thead>
-                    <tr>
-                        <th>Data/Hora</th>
-                        <th>Material</th>
-                        <th>Tipo</th>
-                        <th>Quantidade</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast"></div>
 
-    </section>
-
-</div>
-
-<!-- SCRIPTS -->
-<script src="js/app.js"></script>
+    <!-- SCRIPTS -->
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/modules/estoque.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

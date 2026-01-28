@@ -3,7 +3,10 @@
  * Funções auxiliares e utilitários
  */
 
-// Formatar data/hora
+// ==================== DATA E HORA ====================
+/**
+ * Formata uma data para o padrão brasileiro
+ */
 function formatarDataHora(data) {
     return new Intl.DateTimeFormat('pt-BR', {
         day: '2-digit',
@@ -15,28 +18,71 @@ function formatarDataHora(data) {
     }).format(data);
 }
 
-// Salvar dados no localStorage
+// ==================== STORAGE ====================
+/**
+ * Salva dados no localStorage
+ */
 function salvarDados(chave, dados) {
-    localStorage.setItem(chave, JSON.stringify(dados));
+    try {
+        localStorage.setItem(chave, JSON.stringify(dados));
+    } catch (e) {
+        console.error('Erro ao salvar dados:', e);
+    }
 }
 
-// Recuperar dados do localStorage
+/**
+ * Recupera dados do localStorage
+ */
 function recuperarDados(chave) {
-    const dados = localStorage.getItem(chave);
-    return dados ? JSON.parse(dados) : null;
+    try {
+        const dados = localStorage.getItem(chave);
+        return dados ? JSON.parse(dados) : null;
+    } catch (e) {
+        console.error('Erro ao recuperar dados:', e);
+        return null;
+    }
 }
 
-// Validar entrada vazia
+// ==================== VALIDAÇÃO ====================
+/**
+ * Valida se uma entrada não está vazia
+ */
 function validarEntrada(valor) {
     return valor && valor.trim() !== '';
 }
 
-// Limpar input
+/**
+ * Limpa o valor de um input
+ */
 function limparInput(idInput) {
-    document.getElementById(idInput).value = '';
+    const input = document.getElementById(idInput);
+    if (input) {
+        input.value = '';
+    }
 }
 
-// Mostrar alerta customizado
+// ==================== NOTIFICAÇÕES ====================
+/**
+ * Mostra notificação tipo toast (moderno)
+ */
+function mostrarNotificacao(mensagem, tipo = 'success') {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    
+    // Limpar classes anteriores
+    toast.className = 'toast show ' + tipo;
+    toast.textContent = mensagem;
+    
+    // Remover notificação após 3 segundos
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+/**
+ * Alerta antigo (mantido para compatibilidade)
+ */
 function mostrarAlerta(mensagem, tipo = 'sucesso') {
     console.log(`[${tipo.toUpperCase()}] ${mensagem}`);
+    mostrarNotificacao(mensagem, tipo === 'sucesso' ? 'success' : tipo === 'erro' ? 'error' : 'warning');
 }
