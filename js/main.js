@@ -85,6 +85,71 @@ function atualizarHora() {
 setInterval(atualizarHora, 1000);
 atualizarHora();
 
+// ==================== MODAIS ====================
+let acaoPendente = null;
+
+function mostrarModal(titulo, mensagem, detalhes = '', tipo = 'confirmacao', acaoCallback = null) {
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalDetails = document.getElementById('modalDetails');
+    const confirmBtn = document.getElementById('modalConfirmBtn');
+
+    modalTitle.textContent = titulo;
+    modalMessage.textContent = mensagem;
+    
+    if (detalhes) {
+        modalDetails.innerHTML = detalhes;
+        modalDetails.style.display = 'block';
+    } else {
+        modalDetails.style.display = 'none';
+    }
+
+    // Configurar botão de confirmação baseado no tipo
+    const tiposConfig = {
+        'confirmacao': { texto: 'Confirmar', classe: 'btn-primary' },
+        'exclusao': { texto: 'Excluir', classe: 'btn-danger' },
+        'entrada': { texto: 'Registrar Entrada', classe: 'btn-success' },
+        'saida': { texto: 'Registrar Saída', classe: 'btn-warning' },
+        'info': { texto: 'Entendi', classe: 'btn-primary' }
+    };
+
+    const config = tiposConfig[tipo] || tiposConfig.confirmacao;
+    confirmBtn.textContent = config.texto;
+    confirmBtn.className = `btn ${config.classe}`;
+
+    acaoPendente = acaoCallback;
+    modal.classList.add('show');
+}
+
+function fecharModal() {
+    const modal = document.getElementById('modal');
+    modal.classList.remove('show');
+    acaoPendente = null;
+}
+
+function confirmarAcao() {
+    if (acaoPendente && typeof acaoPendente === 'function') {
+        acaoPendente();
+    }
+    fecharModal();
+}
+
+// Fechar modal ao clicar fora
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('modal');
+    if (e.target === modal) {
+        fecharModal();
+    }
+});
+
+// Fechar modal com ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        fecharModal();
+    }
+});
+
 // ==================== BUSCA DE ESTOQUE ====================
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('buscarEstoque');
