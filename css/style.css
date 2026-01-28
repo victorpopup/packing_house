@@ -56,10 +56,13 @@ nav button:hover {
 /* CONTAINER PRINCIPAL */
 .container-principal {
     min-height: 100vh;
-    background-size: cover;
+    background-size: 100% auto;
     background-position: center;
+    background-repeat: no-repeat;
     background-attachment: fixed;
+    background-clip: padding-box;
     position: relative;
+    padding: 0 50px;
 }
 
 .container-principal::before {
