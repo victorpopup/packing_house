@@ -38,6 +38,12 @@ nav {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     flex-wrap: wrap;
+    transition: all 0.3s ease;
+}
+
+nav.hidden {
+    display: none;
+}
 }
 
 nav button {

@@ -195,6 +195,7 @@ function movimentar(tipo) {
 
 function mostrarTela(telaNome) {
     const conteudos = document.querySelectorAll('.conteudo');
+    const nav = document.querySelector('nav');
 
     conteudos.forEach(conteudo => {
         conteudo.classList.add('hidden');
@@ -206,11 +207,13 @@ function mostrarTela(telaNome) {
             conteudo.classList.add('hidden');
         });
         document.body.classList.remove('com-conteudo');
+        nav.classList.remove('hidden');
     } else {
         const tela = document.getElementById(telaNome);
         if (tela) {
             tela.classList.remove('hidden');
             document.body.classList.add('com-conteudo');
+            nav.classList.add('hidden');
         }
     }
 }
