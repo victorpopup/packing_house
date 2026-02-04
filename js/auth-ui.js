@@ -21,7 +21,6 @@ function criarPrimeiroUsuario(event) {
     event.preventDefault();
     
     const usuario = document.getElementById('primeiroUsuario').value;
-    const nome = document.getElementById('primeiroNome').value;
     const senha = document.getElementById('primeiraSenha').value;
     const confirmarSenha = document.getElementById('confirmarSenha').value;
     
@@ -38,7 +37,7 @@ function criarPrimeiroUsuario(event) {
     
     const dadosUsuario = {
         usuario: usuario,
-        nome: nome,
+        nome: usuario, // Usar o nome de usuário como nome também
         senha: senha
     };
     
@@ -85,10 +84,6 @@ function mostrarFormularioUsuario() {
                 <input type="text" id="novoUsuario" class="form-input" placeholder="Nome de usuário" required>
             </div>
             <div>
-                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nome Completo</label>
-                <input type="text" id="novoNome" class="form-input" placeholder="Nome completo" required>
-            </div>
-            <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: bold;">Senha</label>
                 <input type="password" id="novaSenha" class="form-input" placeholder="Senha" required>
             </div>
@@ -119,7 +114,7 @@ function mostrarFormularioUsuario() {
         () => {
             const dadosUsuario = {
                 usuario: document.getElementById('novoUsuario').value,
-                nome: document.getElementById('novoNome').value,
+                nome: document.getElementById('novoUsuario').value, // Usar nome de usuário como nome
                 senha: document.getElementById('novaSenha').value,
                 nivel: document.getElementById('novoNivel').value,
                 permissoes: obterPermissoesDoFormulario()
@@ -128,7 +123,6 @@ function mostrarFormularioUsuario() {
             if (auth.adicionarUsuario(dadosUsuario)) {
                 // Limpar formulário
                 document.getElementById('novoUsuario').value = '';
-                document.getElementById('novoNome').value = '';
                 document.getElementById('novaSenha').value = '';
                 document.getElementById('novoNivel').value = '';
             }
@@ -320,10 +314,6 @@ function editarUsuario(usuario) {
                 <input type="text" id="editUsuario" class="form-input" value="${usuario}" disabled>
             </div>
             <div>
-                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nome Completo</label>
-                <input type="text" id="editNome" class="form-input" value="${userData.nome}" required>
-            </div>
-            <div>
                 <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nova Senha (deixe em branco para manter atual)</label>
                 <input type="password" id="editSenha" class="form-input" placeholder="Nova senha">
             </div>
@@ -360,7 +350,7 @@ function editarUsuario(usuario) {
         'confirmacao',
         () => {
             const dadosAtualizados = {
-                nome: document.getElementById('editNome').value,
+                nome: document.getElementById('editUsuario').value, // Manter o mesmo nome
                 permissoes: obterPermissoesDoFormulario()
             };
 

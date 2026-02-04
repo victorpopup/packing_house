@@ -109,11 +109,6 @@ class AuthSystem {
                         </div>
                         
                         <div class="form-group">
-                            <label for="primeiroNome">Nome Completo</label>
-                            <input type="text" id="primeiroNome" class="form-input" placeholder="Seu nome completo" required>
-                        </div>
-                        
-                        <div class="form-group">
                             <label for="primeiraSenha">Senha</label>
                             <input type="password" id="primeiraSenha" class="form-input" placeholder="Crie uma senha segura" required>
                         </div>
