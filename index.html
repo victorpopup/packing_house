@@ -30,8 +30,22 @@
                         <input type="password" id="loginSenha" class="form-input" required>
                     </div>
                     
+                    <!-- AVISO SOBRE MODO ANÔNIMO -->
+                    <div style="background: #fff3cd; padding: 10px; border-radius: 4px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
+                        <p style="margin: 0; color: #f57c00; font-size: 0.875rem; font-weight: bold;">⚠️ Modo Anônimo Detectado</p>
+                        <p style="margin: 5px 0 0 0; color: #f57c00; font-size: 0.75rem;">
+                            Se estiver usando modo anônimo/incógnito, os dados serão apagados ao fechar o navegador. 
+                            <strong>Dica:</strong> Use o modo normal ou clique no botão abaixo.
+                        </p>
+                    </div>
+                    
                     <button type="submit" class="btn btn-primary btn-block">
                         🚪 Entrar no Sistema
+                    </button>
+                    
+                    <!-- BOTÃO PARA MODO ANÔNIMO -->
+                    <button type="button" class="btn btn-secondary btn-block" onclick="criarAdminModoAnonimo()" style="margin-top: 10px;">
+                        👤 Criar Admin (Modo Anônimo)
                     </button>
                 </form>
             </div>
@@ -444,6 +458,12 @@
                             <button class="btn btn-secondary btn-block" onclick="mostrarListaUsuarios()">
                                 📋 Listar Usuários
                             </button>
+                            <button class="btn btn-info btn-block" onclick="testeBotao()">
+                                🔧 Teste Botão
+                            </button>
+                            <button class="btn btn-success btn-block" onclick="alert('Teste direto HTML!')">
+                                ⚡ Teste Direto
+                            </button>
                         </div>
                     </div>
 
@@ -508,24 +528,93 @@
 
     <!-- SCRIPTS -->
     <script>
-        // Teste se JavaScript está funcionando
-        console.log('JavaScript carregado!');
-        alert('JavaScript está funcionando!');
+        // Teste básico
+        console.log('Iniciando scripts...');
         
-        // Teste se as funções existem
-        setTimeout(() => {
-            if (typeof mostrarFormularioUsuario === 'undefined') {
-                alert('ERRO: função mostrarFormularioUsuario não existe!');
-            } else {
-                console.log('Função mostrarFormularioUsuario encontrada');
+        // Teste função simples
+        function testeBotao() {
+            alert('Botão de teste funcionou!');
+        }
+        
+        // Função para criar admin no modo anônimo
+        function criarAdminModoAnonimo() {
+            const usuario = prompt('Digite o nome de usuário para o admin:');
+            const senha = prompt('Digite a senha para o admin:');
+            
+            if (!usuario || !senha) {
+                alert('Usuário e senha são obrigatórios!');
+                return;
             }
-        }, 1000);
+            
+            if (senha.length < 6) {
+                alert('A senha deve ter pelo menos 6 caracteres!');
+                return;
+            }
+            
+            // Criar usuário admin diretamente
+            const adminUser = {
+                usuario: usuario,
+                nome: usuario,
+                senha: senha,
+                nivel: 'admin',
+                permissoes: {
+                    dashboard: { ver: true, editar: true },
+                    estoque: { ver: true, editar: true },
+                    qualidade: { ver: true, editar: true },
+                    recepcao: { ver: true, editar: true },
+                    producao: { ver: true, editar: true },
+                    configuracao: { ver: true, editar: true }
+                },
+                criadoEm: new Date().toISOString(),
+                criadoPor: 'modo_anonimo'
+            };
+            
+            // Salvar no localStorage
+            localStorage.setItem('auth_usuarios', JSON.stringify({ [usuario]: adminUser }));
+            localStorage.setItem('auth_usuario_atual', JSON.stringify(adminUser));
+            
+            alert(`Administrador "${usuario}" criado com sucesso!`);
+            
+            // Recarregar a página
+            location.reload();
+        }
+        
+        // Adicionar ao escopo global
+        window.testeBotao = testeBotao;
+        window.criarAdminModoAnonimo = criarAdminModoAnonimo;
+        
+        console.log('Scripts básicos carregados');
     </script>
+    
+    <!-- Carregar scripts essenciais primeiro -->
     <script src="js/utils/helpers.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        console.log('Scripts essenciais carregados');
+        
+        // Testar se as funções existem após carregar
+        setTimeout(() => {
+            console.log('Verificando funções...');
+            
+            if (typeof fazerLogout === 'undefined') {
+                console.error('fazerLogout não existe');
+            } else {
+                console.log('fazerLogout existe');
+            }
+            
+            if (typeof mostrarFormularioUsuario === 'undefined') {
+                console.error('mostrarFormularioUsuario não existe');
+            } else {
+                console.log('mostrarFormularioUsuario existe');
+            }
+        }, 2000);
+    </script>
+    
+    <!-- Scripts dos módulos -->
     <script src="js/modules/auth.js"></script>
     <script src="js/modules/estoque.js"></script>
     <script src="js/modules/qualidade.js"></script>
-    <script src="js/main.js"></script>
     <script src="js/app.js"></script>
     <script src="js/auth-ui.js"></script>
     <script src="js/pwa-install.js"></script>

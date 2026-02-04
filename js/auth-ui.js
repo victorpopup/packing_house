@@ -76,25 +76,16 @@ function mostrarFormularioUsuario() {
     
     // Verificação simples
     if (!auth.usuarioAtual) {
-        alert('Erro: Nenhum usuário logado!');
+        console.error('Nenhum usuário logado');
         return;
     }
     
     if (!auth.verificarPermissao('configuracao', 'editar')) {
-        alert('Erro: Você não tem permissão para adicionar usuários!');
+        console.error('Sem permissão para adicionar usuários');
         return;
     }
     
-    alert('Permissão OK! Vamos mostrar o formulário...');
-
-    // Testar se o modal funciona
-    const modal = document.getElementById('modal');
-    if (!modal) {
-        alert('Erro: Modal não encontrado!');
-        return;
-    }
-    
-    alert('Modal encontrado! Abrindo...');
+    console.log('Permissão OK! Abrindo modal...');
     
     const formularioHtml = `
         <div style="display: grid; gap: 15px;">
@@ -131,7 +122,8 @@ function mostrarFormularioUsuario() {
         formularioHtml,
         'confirmacao',
         () => {
-            alert('Callback do modal chamado!');
+            console.log('Callback do modal chamado');
+            
             const dadosUsuario = {
                 usuario: document.getElementById('novoUsuario').value,
                 nome: document.getElementById('novoUsuario').value,
@@ -140,7 +132,7 @@ function mostrarFormularioUsuario() {
                 permissoes: obterPermissoesDoFormulario()
             };
             
-            alert('Dados: ' + JSON.stringify(dadosUsuario));
+            console.log('Dados do usuário:', dadosUsuario);
 
             if (auth.adicionarUsuario(dadosUsuario)) {
                 // Limpar formulário
@@ -250,6 +242,8 @@ function getPermissoesPadrao(nivel) {
 
 // Mostrar lista de usuários
 function mostrarListaUsuarios() {
+    alert('mostrarListaUsuarios chamado!');
+    
     if (!auth.verificarPermissao('configuracao', 'ver')) {
         mostrarNotificacao('Você não tem permissão para ver usuários', 'error');
         return;
