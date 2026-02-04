@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Limpar Dados do Sistema</title>
+</head>
+<body>
+    <h1>Limpar Dados do Sistema</h1>
+    <button onclick="limparDados()">Limpar Todos os Dados</button>
+    <button onclick="verificarDados()">Verificar Dados Atuais</button>
+    
+    <div id="resultado"></div>
+    
+    <script>
+        function limparDados() {
+            localStorage.removeItem('auth_usuarios');
+            localStorage.removeItem('auth_usuario_atual');
+            localStorage.removeItem('estoque_materiais');
+            localStorage.removeItem('estoque_transacoes');
+            document.getElementById('resultado').innerHTML = '<p style="color: green;">✅ Todos os dados foram limpos! Recarregue a página principal.</p>';
+        }
+        
+        function verificarDados() {
+            const usuarios = localStorage.getItem('auth_usuarios');
+            const usuarioAtual = localStorage.getItem('auth_usuario_atual');
+            
+            let html = '<h3>Dados Atuais:</h3>';
+            html += '<p><strong>Usuários:</strong> ' + (usuarios ? 'SIM' : 'NÃO') + '</p>';
+            html += '<p><strong>Usuário Atual:</strong> ' + (usuarioAtual ? 'SIM' : 'NÃO') + '</p>';
+            
+            if (usuarios) {
+                html += '<p><strong>Conteúdo:</strong> <pre>' + JSON.stringify(JSON.parse(usuarios), null, 2) + '</pre></p>';
+            }
+            
+            document.getElementById('resultado').innerHTML = html;
+        }
+        
+        // Verificar ao carregar
+        verificarDados();
+    </script>
+</body>
+</html>

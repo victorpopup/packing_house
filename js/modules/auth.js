@@ -24,28 +24,6 @@ class AuthSystem {
         }
     }
 
-    criarAdminPadrao() {
-        const adminPadrao = {
-            usuario: 'admin',
-            senha: 'admin123',
-            nome: 'Administrador',
-            nivel: 'admin',
-            permissoes: {
-                dashboard: { ver: true, editar: true },
-                estoque: { ver: true, editar: true },
-                qualidade: { ver: true, editar: true },
-                recepcao: { ver: true, editar: true },
-                producao: { ver: true, editar: true },
-                configuracao: { ver: true, editar: true }
-            },
-            criadoEm: new Date().toISOString()
-        };
-
-        this.usuarios = { admin: adminPadrao };
-        this.salvarUsuarios();
-        console.log('Usuário admin padrão criado: admin/admin123');
-    }
-
     carregarUsuarios() {
         return recuperarDados('auth_usuarios') || {};
     }
@@ -91,7 +69,69 @@ class AuthSystem {
     }
 
     mostrarLogin() {
+        console.log('mostrarLogin chamado');
+        console.log('Usuários existentes:', this.usuarios);
+        console.log('Quantidade de usuários:', Object.keys(this.usuarios || {}).length);
+        
+        // Se não existir usuários, mostrar formulário para criar o primeiro
+        if (!this.usuarios || Object.keys(this.usuarios).length === 0) {
+            console.log('Mostrando criação do primeiro usuário');
+            this.mostrarCriacaoPrimeiroUsuario();
+            return;
+        }
+
+        console.log('Mostrando login normal');
         document.getElementById('loginScreen').style.display = 'flex';
+        document.getElementById('mainSystem').style.display = 'none';
+    }
+
+    mostrarCriacaoPrimeiroUsuario() {
+        const loginScreen = document.getElementById('loginScreen');
+        loginScreen.innerHTML = `
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="login-header">
+                        <h1>🏭 Packing House</h1>
+                        <p>Criar Administrador</p>
+                    </div>
+                    
+                    <form id="primeiroUsuarioForm" onsubmit="return criarPrimeiroUsuario(event)">
+                        <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                            <p style="margin: 0; color: #1976d2; font-weight: bold;">🎉 Bem-vindo!</p>
+                            <p style="margin: 5px 0 0 0; color: #1976d2; font-size: 0.9rem;">
+                                Este é o primeiro acesso. Vamos criar o usuário administrador.
+                            </p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="primeiroUsuario">Usuário</label>
+                            <input type="text" id="primeiroUsuario" class="form-input" placeholder="Escolha um nome de usuário" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="primeiroNome">Nome Completo</label>
+                            <input type="text" id="primeiroNome" class="form-input" placeholder="Seu nome completo" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="primeiraSenha">Senha</label>
+                            <input type="password" id="primeiraSenha" class="form-input" placeholder="Crie uma senha segura" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmarSenha">Confirmar Senha</label>
+                            <input type="password" id="confirmarSenha" class="form-input" placeholder="Confirme sua senha" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            👑 Criar Administrador
+                        </button>
+                    </form>
+                </div>
+            </div>
+        `;
+        
+        loginScreen.style.display = 'flex';
         document.getElementById('mainSystem').style.display = 'none';
     }
 
@@ -238,21 +278,61 @@ class AuthSystem {
     }
 
     // Métodos para administração de usuários
+    criarPrimeiroUsuario(dadosUsuario) {
+        if (this.usuarios && Object.keys(this.usuarios).length > 0) {
+            mostrarNotificacao('Já existem usuários cadastrados', 'error');
+            return false;
+        }
+
+        dadosUsuario.nivel = 'admin';
+        dadosUsuario.permissoes = {
+            dashboard: { ver: true, editar: true },
+            estoque: { ver: true, editar: true },
+            qualidade: { ver: true, editar: true },
+            recepcao: { ver: true, editar: true },
+            producao: { ver: true, editar: true },
+            configuracao: { ver: true, editar: true }
+        };
+
+        this.usuarios[dadosUsuario.usuario] = {
+            ...dadosUsuario,
+            criadoEm: new Date().toISOString(),
+            criadoPor: 'sistema'
+        };
+
+        this.salvarUsuarios();
+        mostrarNotificacao(`Usuário "${dadosUsuario.usuario}" adicionado com sucesso`, 'success');
+        return true;
+    }
+
     adicionarUsuario(dadosUsuario) {
+        // Se não existir nenhum usuário, o primeiro será admin automaticamente
+        if (!this.usuarios || Object.keys(this.usuarios).length === 0) {
+            dadosUsuario.nivel = 'admin';
+            dadosUsuario.permissoes = {
+                dashboard: { ver: true, editar: true },
+                estoque: { ver: true, editar: true },
+                qualidade: { ver: true, editar: true },
+                recepcao: { ver: true, editar: true },
+                producao: { ver: true, editar: true },
+                configuracao: { ver: true, editar: true }
+            };
+        }
+
         if (!this.verificarPermissao('configuracao', 'editar')) {
             mostrarNotificacao('Você não tem permissão para adicionar usuários', 'error');
             return false;
         }
 
         if (this.usuarios[dadosUsuario.usuario]) {
-            mostrarNotificacao('Usuário já existe', 'error');
+            mostrarNotificacao('Usuário já existe no estoque', 'warning');
             return false;
         }
 
         this.usuarios[dadosUsuario.usuario] = {
             ...dadosUsuario,
             criadoEm: new Date().toISOString(),
-            criadoPor: this.usuarioAtual.usuario
+            criadoPor: this.usuarioAtual?.usuario || 'sistema'
         };
 
         this.salvarUsuarios();

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .login-card { max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div id="loginScreen">
+        <div class="login-card">
+            <h2>🏭 Packing House</h2>
+            <p id="status">Verificando usuários...</p>
+            
+            <div id="criarAdmin" style="display: none;">
+                <h3>Criar Administrador</h3>
+                <form onsubmit="criarAdmin(event)">
+                    <div class="form-group">
+                        <label>Usuário:</label>
+                        <input type="text" id="novoUsuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nome:</label>
+                        <input type="text" id="novoNome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Senha:</label>
+                        <input type="password" id="novaSenha" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar Senha:</label>
+                        <input type="password" id="confirmarSenha" required>
+                    </div>
+                    <button type="submit">👑 Criar Administrador</button>
+                </form>
+            </div>
+            
+            <div id="loginNormal" style="display: none;">
+                <h3>Login</h3>
+                <form onsubmit="fazerLogin(event)">
+                    <div class="form-group">
+                        <label>Usuário:</label>
+                        <input type="text" id="loginUsuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Senha:</label>
+                        <input type="password" id="loginSenha" required>
+                    </div>
+                    <button type="submit">🚪 Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verificar usuários existentes
+        function verificarUsuarios() {
+            const usuarios = localStorage.getItem('auth_usuarios');
+            console.log('Usuários no localStorage:', usuarios);
+            
+            if (!usuarios || usuarios === 'null' || usuarios === '{}') {
+                document.getElementById('status').textContent = 'Nenhum usuário encontrado. Criando administrador...';
+                document.getElementById('criarAdmin').style.display = 'block';
+            } else {
+                const usuariosObj = JSON.parse(usuarios);
+                document.getElementById('status').textContent = `${Object.keys(usuariosObj).length} usuário(s) encontrado(s)`;
+                document.getElementById('loginNormal').style.display = 'block';
+            }
+        }
+        
+        // Criar administrador
+        function criarAdmin(event) {
+            event.preventDefault();
+            
+            const usuario = document.getElementById('novoUsuario').value;
+            const nome = document.getElementById('novoNome').value;
+            const senha = document.getElementById('novaSenha').value;
+            const confirmar = document.getElementById('confirmarSenha').value;
+            
+            if (senha !== confirmar) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            const adminUser = {
+                usuario: usuario,
+                nome: nome,
+                senha: senha,
+                nivel: 'admin',
+                permissoes: {
+                    dashboard: { ver: true, editar: true },
+                    estoque: { ver: true, editar: true },
+                    qualidade: { ver: true, editar: true },
+                    recepcao: { ver: true, editar: true },
+                    producao: { ver: true, editar: true },
+                    configuracao: { ver: true, editar: true }
+                },
+                criadoEm: new Date().toISOString()
+            };
+            
+            localStorage.setItem('auth_usuarios', JSON.stringify({ [usuario]: adminUser }));
+            alert('Administrador criado com sucesso!');
+            
+            // Recarregar para mostrar login normal
+            location.reload();
+        }
+        
+        // Fazer login
+        function fazerLogin(event) {
+            event.preventDefault();
+            
+            const usuario = document.getElementById('loginUsuario').value;
+            const senha = document.getElementById('loginSenha').value;
+            
+            const usuarios = JSON.parse(localStorage.getItem('auth_usuarios') || '{}');
+            const userData = usuarios[usuario];
+            
+            if (userData && userData.senha === senha) {
+                localStorage.setItem('auth_usuario_atual', JSON.stringify(userData));
+                alert(`Bem-vindo, ${userData.nome}!`);
+                // Redirecionar para o sistema principal
+                window.location.href = 'index.html';
+            } else {
+                alert('Usuário ou senha incorretos!');
+            }
+        }
+        
+        // Verificar ao carregar
+        verificarUsuarios();
+    </script>
+</body>
+</html>

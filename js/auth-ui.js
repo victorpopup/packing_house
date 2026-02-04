@@ -16,11 +16,59 @@ function fazerLogin(event) {
     }
 }
 
+// Função para criar o primeiro usuário
+function criarPrimeiroUsuario(event) {
+    event.preventDefault();
+    
+    const usuario = document.getElementById('primeiroUsuario').value;
+    const nome = document.getElementById('primeiroNome').value;
+    const senha = document.getElementById('primeiraSenha').value;
+    const confirmarSenha = document.getElementById('confirmarSenha').value;
+    
+    // Validar senhas
+    if (senha !== confirmarSenha) {
+        mostrarNotificacao('As senhas não coincidem', 'error');
+        return;
+    }
+    
+    if (senha.length < 6) {
+        mostrarNotificacao('A senha deve ter pelo menos 6 caracteres', 'error');
+        return;
+    }
+    
+    const dadosUsuario = {
+        usuario: usuario,
+        nome: nome,
+        senha: senha
+    };
+    
+    if (auth.criarPrimeiroUsuario(dadosUsuario)) {
+        // Fazer login automaticamente após criar
+        auth.login(usuario, senha);
+    }
+}
+
 // Função de logout
 function fazerLogout() {
-    if (confirm('Tem certeza que deseja sair do sistema?')) {
-        auth.logout();
-    }
+    const usuarioAtual = auth.usuarioAtual;
+    const detalhes = `
+        <div style="text-align: center; padding: 20px;">
+            <div style="font-size: 3rem; margin-bottom: 15px;">👋</div>
+            <p style="margin: 10px 0;"><strong>Usuário:</strong> ${usuarioAtual.nome}</strong></p>
+            <p style="margin: 10px 0; color: var(--text-secondary);">Deseja realmente sair do sistema?</p>
+            <p style="margin: 10px 0; font-size: 0.875rem; color: var(--text-secondary);">Você precisará fazer login novamente para acessar o sistema.</p>
+        </div>
+    `;
+
+    mostrarModal(
+        '🚪 Sair do Sistema',
+        'Confirmar logout',
+        detalhes,
+        'exclusao',
+        () => {
+            auth.logout();
+        }
+    );
 }
 
 // Mostrar formulário de adicionar usuário
