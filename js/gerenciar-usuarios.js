@@ -455,7 +455,7 @@ function getCorNivel(nivel) {
 }
 
 // Mostrar notificação (função auxiliar)
-function mostrarNotificacao(mensagem, tipo = 'info') {
+function mostrarNotificacaoUsuarios(mensagem, tipo = 'info') {
     // Criar elemento de notificação
     const notificacao = document.createElement('div');
     notificacao.style.cssText = `

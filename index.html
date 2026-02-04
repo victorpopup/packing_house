@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Controle de Packing">
-    <title>Controle de Packing</title>
+    <meta name="description" content="Packing House - Sistema de Controle de Estoque Profissional">
+    <title>Packing House | Controle de Estoque</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -209,9 +209,7 @@
                         </div>
                     </div>
                 </div>
-
             </section>
-
             <!-- ESTOQUE PAGE -->
             <section id="estoque" class="page">
                 <div class="page-header">
@@ -219,7 +217,6 @@
                         <h3>Gestão de Estoque</h3>
                         <p class="subtitle">Cadastre e monitore seus materiais em tempo real</p>
                     </div>
-                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
                 </div>
 
                 <div class="cards-grid">
@@ -316,13 +313,12 @@
                         <button class="btn btn-primary" onclick="gerarRelatorioEstoquePDF()">
                             📥 Baixar Relatório de Estoque
                         </button>
-                        <p class="subtitle">Módulo em desenvolvimento</p>
                     </div>
-                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
                 </div>
-                <div class="empty-state">
-                    <span class="empty-icon">🍎</span>
-                    <p>Este módulo estará disponível em breve</p>
+
+                <!-- BOTÃO VOLTAR AO MENU -->
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📋 Voltar ao Menu</button>
                 </div>
             </section>
 
@@ -332,13 +328,15 @@
                         <h3>Recepção de Fruta</h3>
                         <p class="subtitle">Módulo em desenvolvimento</p>
                     </div>
-                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
                 </div>
                 <div class="empty-state">
                     <span class="empty-icon">🍎</span>
                     <h4>Módulo em Desenvolvimento</h4>
                     <p>Esta funcionalidade estará disponível em breve. Por enquanto, utilize o módulo de Estoque para gerenciar seus materiais.</p>
                     <button class="btn btn-primary" onclick="mostrarTela('estoque')">📦 Ir para Estoque</button>
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📋 Voltar ao Menu</button>
                 </div>
             </section>
 
@@ -348,13 +346,15 @@
                         <h3>Produção</h3>
                         <p class="subtitle">Módulo em desenvolvimento</p>
                     </div>
-                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
                 </div>
                 <div class="empty-state">
                     <span class="empty-icon">🏭</span>
                     <h4>Módulo em Desenvolvimento</h4>
                     <p>Esta funcionalidade estará disponível em breve. Por enquanto, utilize o módulo de Estoque para gerenciar seus materiais.</p>
                     <button class="btn btn-primary" onclick="mostrarTela('estoque')">📦 Ir para Estoque</button>
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📋 Voltar ao Menu</button>
                 </div>
             </section>
 
@@ -365,7 +365,6 @@
                         <h3>Configurações</h3>
                         <p class="subtitle">Gerenciamento do sistema</p>
                     </div>
-                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
                 </div>
 
                 <div class="cards-grid">
@@ -434,7 +433,16 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- BOTÃO VOLTAR AO MENU -->
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📋 Voltar ao Menu</button>
+                </div>
             </section>
+
+        </div>
+    </main>
+    </div>
 
             <!-- MODAL -->
             <div id="modal" class="modal">
@@ -452,44 +460,29 @@
                         <button class="btn btn-primary" id="modalConfirmBtn" onclick="confirmarAcao()">Confirmar</button>
                     </div>
                 </div>
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">Confirmação</h3>
-                <button class="modal-close" onclick="fecharModal()">×</button>
             </div>
-            <div class="modal-body">
-                <p id="modalMessage">Mensagem do modal</p>
-                <div id="modalDetails" class="modal-details"></div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
-                <button class="btn btn-primary" id="modalConfirmBtn" onclick="confirmarAcao()">Confirmar</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="toast"></div>
+            <!-- TOAST NOTIFICATION -->
+            <div id="toast" class="toast"></div>
 
-    <!-- SCRIPTS -->
-    <!-- Login Simplificado -->
-    <script src="js/login-simple.js"></script>
-    
-    <!-- Sistema Principal -->
-    <script src="js/utils/helpers.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/app.js"></script>
-    
-    <!-- Gerenciamento de Usuários -->
-    <script src="js/gerenciar-usuarios.js"></script>
-    
-    <!-- Módulos (se existirem) -->
-    <script src="js/modules/estoque.js"></script>
-    <script src="js/modules/qualidade.js"></script>
-    
-    <!-- Funcionalidades extras -->
-    <script src="js/pwa-install.js"></script>
-    <script src="js/relatorio-estoque.js"></script>
+            <!-- SCRIPTS -->
+            <!-- Login Simplificado -->
+            <script src="js/login-simple.js"></script>
+            
+            <!-- Sistema Principal -->
+            <script src="js/utils/helpers.js"></script>
+            <script src="js/main.js"></script>
+            <script src="js/app.js"></script>
+            
+            <!-- Gerenciamento de Usuários -->
+            <script src="js/gerenciar-usuarios.js"></script>
+            
+            <!-- Módulos -->
+            <script src="js/modules/estoque.js"></script>
+            <script src="js/modules/qualidade.js"></script>
+            
+            <!-- Funcionalidades extras -->
+            <script src="js/pwa-install.js"></script>
+            <script src="js/relatorio-estoque.js"></script>
 </body>
 </html>

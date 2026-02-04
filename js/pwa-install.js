@@ -143,8 +143,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-// Verificar se já está instalado
-if (window.matchMedia('(display-mode: standalone)').matches) {
-} else {
-}

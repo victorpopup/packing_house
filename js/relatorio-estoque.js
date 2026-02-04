@@ -1,12 +1,12 @@
 /* filepath: d:\Documents\meus_projetos\packing_house\js\relatorio-estoque.js */
 /**
- * Relatório de Estoque em PDF
+ * Relatório de Packing em PDF
  */
 
-// Gerar relatório de estoque em PDF
+// Gerar relatório de packing em PDF
 function gerarRelatorioEstoquePDF() {
     if (!auth.verificarPermissao('estoque', 'ver')) {
-        mostrarNotificacao('Você não tem permissão para ver relatórios de estoque', 'error');
+        mostrarNotificacao('Você não tem permissão para ver relatórios de packing', 'error');
         return;
     }
 
@@ -48,7 +48,7 @@ function gerarRelatorioEstoquePDF() {
     // Cabeçalho
     doc.setFontSize(20);
     doc.setFont(undefined, 'bold');
-    doc.text('Relatorio de Estoque', pageWidth / 2, yPosition, { align: 'center' });
+    doc.text('Relatorio de Packing', pageWidth / 2, yPosition, { align: 'center' });
     yPosition += 15;
 
     // Informações do relatório
@@ -63,10 +63,10 @@ function gerarRelatorioEstoquePDF() {
     doc.line(20, yPosition, pageWidth - 20, yPosition);
     yPosition += 15;
 
-    // Resumo do Estoque
+    // Resumo do Packing
     doc.setFontSize(14);
     doc.setFont(undefined, 'bold');
-    doc.text('Resumo do Estoque', 20, yPosition);
+    doc.text('Resumo do Packing', 20, yPosition);
     yPosition += 10;
 
     const totalItens = Object.values(materiais).reduce((a, b) => a + b, 0);
@@ -86,10 +86,10 @@ function gerarRelatorioEstoquePDF() {
     doc.text(`Saidas: ${totalSaidas}`, 20, yPosition);
     yPosition += 15;
 
-    // Tabela de Estoque Atual
+    // Tabela de Packing Atual
     doc.setFontSize(14);
     doc.setFont(undefined, 'bold');
-    doc.text('Estoque Atual', 20, yPosition);
+    doc.text('Packing Atual', 20, yPosition);
     yPosition += 10;
 
     // Cabeçalho da tabela
@@ -163,13 +163,13 @@ function gerarRelatorioEstoquePDF() {
     const rodapeY = pageHeight - 20;
     doc.setFontSize(8);
     doc.setFont(undefined, 'italic');
-    doc.text('Gerado pelo Packing House - Sistema de Controle de Estoque', pageWidth / 2, rodapeY, { align: 'center' });
+    doc.text('Gerado pelo Packing House - Sistema de Controle de Packing', pageWidth / 2, rodapeY, { align: 'center' });
 
     // Salvar o PDF
-    const fileName = `relatorio-estoque-${new Date().toISOString().split('T')[0]}.pdf`;
+    const fileName = `relatorio-packing-${new Date().toISOString().split('T')[0]}.pdf`;
     doc.save(fileName);
 
-    mostrarNotificacao('📥 Relatório de estoque gerado com sucesso!', 'success');
+    mostrarNotificacao('📥 Relatório de packing gerado com sucesso!', 'success');
 }
 
 // Adicionar ao escopo global

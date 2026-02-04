@@ -211,10 +211,37 @@ function fazerLogout() {
     localStorage.removeItem('auth_usuario_atual');
     document.getElementById('mainSystem').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
-    // Limpar formulário de login
-    limparFormulario('loginForm');
+    
+    // Limpar formulário de login de forma mais completa
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        const inputs = loginForm.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.value = '';
+            // Limpar também o autocomplete do navegador
+            input.setAttribute('autocomplete', 'off');
+        });
+        // Resetar o formulário
+        loginForm.reset();
+    }
+    
     // Garantir que o formulário de criação esteja escondido
     document.getElementById('formCriacaoUsuario').style.display = 'none';
+    document.getElementById('loginForm').style.display = 'block';
+    
+    // Limpar também o formulário de criação se estiver visível
+    const criacaoForm = document.getElementById('formCriacaoUsuario');
+    if (criacaoForm) {
+        const inputs = criacaoForm.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            if (input.type === 'text' || input.type === 'password') {
+                input.value = '';
+            } else if (input.tagName === 'SELECT') {
+                input.selectedIndex = 0;
+            }
+        });
+        criacaoForm.reset();
+    }
 }
 
 // Verificar se já está logado ao carregar a página
