@@ -177,7 +177,7 @@ class Estoque {
     }
 
     atualizarHistorico() {
-        const tbody = document.querySelector('#historicoTransacoes tbody');
+        const tbody = document.getElementById('historicoTransacoes');
         if (!tbody) return;
 
         tbody.innerHTML = '';
@@ -275,37 +275,6 @@ class Estoque {
         if (maiorEl) {
             maiorEl.textContent = maiorMaterial !== '-' ? `${maiorMaterial} (${maiorQtd} un)` : '-';
         }
-
-        // Atualizar últimas transações
-        this.atualizarUltimasTransacoes();
-    }
-
-    atualizarUltimasTransacoes() {
-        const tbody = document.getElementById('dashUltimasTransacoes');
-        if (!tbody) return;
-
-        tbody.innerHTML = '';
-
-        if (this.transacoes.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">Nenhuma transação registrada</td></tr>';
-            return;
-        }
-
-        // Pegar últimas 5 transações
-        this.transacoes.slice().reverse().slice(0, 5).forEach(transacao => {
-            const tr = document.createElement('tr');
-            const badge = transacao.tipo === 'entrada'
-                ? '<span class="badge badge-success">➕ Entrada</span>'
-                : '<span class="badge badge-warning">➖ Saída</span>';
-
-            tr.innerHTML = `
-                <td>${formatarDataHora(new Date(transacao.data))}</td>
-                <td>${transacao.material}</td>
-                <td>${badge}</td>
-                <td>${transacao.quantidade}</td>
-            `;
-            tbody.appendChild(tr);
-        });
     }
 
     salvarEstoque() {

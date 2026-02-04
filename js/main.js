@@ -46,6 +46,11 @@ function mostrarTela(telaNome) {
             estoque.atualizarDashboard();
         }
         
+        // Atualizar estoque se acessando a aba de estoque
+        if (telaNome === 'estoque' && typeof estoque !== 'undefined') {
+            estoque.atualizarHistorico();
+        }
+        
         // Atualizar configurações se voltando para ela
         if (telaNome === 'configuracao' && typeof estoque !== 'undefined') {
             atualizarPaginaConfiguracao();
