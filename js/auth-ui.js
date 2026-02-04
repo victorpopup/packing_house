@@ -73,16 +73,29 @@ function fazerLogout() {
 // Mostrar formulário de adicionar usuário
 function mostrarFormularioUsuario() {
     console.log('mostrarFormularioUsuario chamado');
-    console.log('auth.usuarioAtual:', auth.usuarioAtual);
-    console.log('Permissão configuracao/editar:', auth.verificarPermissao('configuracao', 'editar'));
     
-    if (!auth.verificarPermissao('configuracao', 'editar')) {
-        mostrarNotificacao('Você não tem permissão para adicionar usuários', 'error');
+    // Verificação simples
+    if (!auth.usuarioAtual) {
+        alert('Erro: Nenhum usuário logado!');
         return;
     }
+    
+    if (!auth.verificarPermissao('configuracao', 'editar')) {
+        alert('Erro: Você não tem permissão para adicionar usuários!');
+        return;
+    }
+    
+    alert('Permissão OK! Vamos mostrar o formulário...');
 
-    console.log('Tem permissão, mostrando formulário');
-
+    // Testar se o modal funciona
+    const modal = document.getElementById('modal');
+    if (!modal) {
+        alert('Erro: Modal não encontrado!');
+        return;
+    }
+    
+    alert('Modal encontrado! Abrindo...');
+    
     const formularioHtml = `
         <div style="display: grid; gap: 15px;">
             <div>
@@ -118,16 +131,16 @@ function mostrarFormularioUsuario() {
         formularioHtml,
         'confirmacao',
         () => {
-            console.log('Callback do modal chamado');
+            alert('Callback do modal chamado!');
             const dadosUsuario = {
                 usuario: document.getElementById('novoUsuario').value,
-                nome: document.getElementById('novoUsuario').value, // Usar nome de usuário como nome
+                nome: document.getElementById('novoUsuario').value,
                 senha: document.getElementById('novaSenha').value,
                 nivel: document.getElementById('novoNivel').value,
                 permissoes: obterPermissoesDoFormulario()
             };
             
-            console.log('Dados do usuário:', dadosUsuario);
+            alert('Dados: ' + JSON.stringify(dadosUsuario));
 
             if (auth.adicionarUsuario(dadosUsuario)) {
                 // Limpar formulário

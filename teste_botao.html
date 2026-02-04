@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Botão</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { padding: 10px 20px; margin: 10px; font-size: 16px; }
+        .btn-primary { background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Teste de Botão</h1>
+    
+    <p>Teste 1: Alert simples</p>
+    <button class="btn-primary" onclick="alert('Botão 1 funcionando!')">Teste 1</button>
+    
+    <p>Teste 2: Função externa</p>
+    <button class="btn-primary" onclick="testarFuncao()">Teste 2</button>
+    
+    <p>Teste 3: Chamada múltipla</p>
+    <button class="btn-primary" onclick="alert('Primeiro'); testarFuncao();">Teste 3</button>
+
+    <script>
+        function testarFuncao() {
+            console.log('Função testarFuncao chamada');
+            alert('Função externa funcionando!');
+        }
+        
+        // Testar se o navegador suporta onclick
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Página carregada');
+            
+            // Testar addEventListener
+            const btn4 = document.createElement('button');
+            btn4.className = 'btn-primary';
+            btn4.textContent = 'Teste 4 (addEventListener)';
+            btn4.onclick = function() {
+                alert('Teste 4 com addEventListener funcionando!');
+            };
+            document.body.appendChild(btn4);
+        });
+    </script>
+</body>
+</html>

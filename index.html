@@ -507,6 +507,20 @@
     <div id="toast" class="toast"></div>
 
     <!-- SCRIPTS -->
+    <script>
+        // Teste se JavaScript está funcionando
+        console.log('JavaScript carregado!');
+        alert('JavaScript está funcionando!');
+        
+        // Teste se as funções existem
+        setTimeout(() => {
+            if (typeof mostrarFormularioUsuario === 'undefined') {
+                alert('ERRO: função mostrarFormularioUsuario não existe!');
+            } else {
+                console.log('Função mostrarFormularioUsuario encontrada');
+            }
+        }, 1000);
+    </script>
     <script src="js/utils/helpers.js"></script>
     <script src="js/modules/auth.js"></script>
     <script src="js/modules/estoque.js"></script>

@@ -301,6 +301,10 @@ class AuthSystem {
     }
 
     adicionarUsuario(dadosUsuario) {
+        console.log('adicionarUsuario chamado com:', dadosUsuario);
+        console.log('this.usuarioAtual:', this.usuarioAtual);
+        console.log('verificarPermissao resultado:', this.verificarPermissao('configuracao', 'editar'));
+        
         // Se não existir nenhum usuário, o primeiro será admin automaticamente
         if (!this.usuarios || Object.keys(this.usuarios).length === 0) {
             dadosUsuario.nivel = 'admin';
@@ -315,15 +319,18 @@ class AuthSystem {
         }
 
         if (!this.verificarPermissao('configuracao', 'editar')) {
+            console.log('Sem permissão para adicionar usuário');
             mostrarNotificacao('Você não tem permissão para adicionar usuários', 'error');
             return false;
         }
 
         if (this.usuarios[dadosUsuario.usuario]) {
+            console.log('Usuário já existe:', dadosUsuario.usuario);
             mostrarNotificacao('Usuário já existe no estoque', 'warning');
             return false;
         }
 
+        console.log('Adicionando usuário...');
         this.usuarios[dadosUsuario.usuario] = {
             ...dadosUsuario,
             criadoEm: new Date().toISOString(),
@@ -331,6 +338,7 @@ class AuthSystem {
         };
 
         this.salvarUsuarios();
+        console.log('Usuário salvo com sucesso');
         mostrarNotificacao(`Usuário "${dadosUsuario.usuario}" adicionado com sucesso`, 'success');
         return true;
     }
