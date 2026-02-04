@@ -8,6 +8,41 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- TELA DE LOGIN -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>🏭 Packing House</h1>
+                    <p>Sistema de Controle de Estoque</p>
+                </div>
+                
+                <form id="loginForm" onsubmit="return fazerLogin(event)">
+                    <div class="form-group">
+                        <label for="loginUsuario">Usuário</label>
+                        <input type="text" id="loginUsuario" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginSenha">Senha</label>
+                        <input type="password" id="loginSenha" class="form-input" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        🚪 Entrar no Sistema
+                    </button>
+                </form>
+                
+                <div class="login-info">
+                    <p><strong>Usuário Admin:</strong> admin</p>
+                    <p><strong>Senha Padrão:</strong> admin123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SISTEMA PRINCIPAL -->
+    <div id="mainSystem" style="display: none;">
     <!-- SIDEBAR NAVIGATION -->
     <aside class="sidebar" id="sidebar">
         <div class="logo-container">
@@ -44,6 +79,8 @@
             <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
             <h2 id="pageTitle">Estoque</h2>
             <div class="user-info">
+                <span class="user-name" id="userName">Usuário</span>
+                <button class="btn btn-secondary btn-sm" onclick="fazerLogout()">🚪 Sair</button>
                 <span class="time" id="currentTime"></span>
             </div>
         </div>
@@ -384,6 +421,21 @@
                 </div>
 
                 <div class="cards-grid">
+                    <!-- CARD: GERENCIAR USUÁRIOS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>👥 Gerenciar Usuários</h4>
+                        </div>
+                        <div class="card-body">
+                            <button class="btn btn-primary btn-block" onclick="mostrarFormularioUsuario()">
+                                ➕ Adicionar Novo Usuário
+                            </button>
+                            <button class="btn btn-secondary btn-block" onclick="mostrarListaUsuarios()">
+                                📋 Listar Usuários
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- CARD: LIMPEZA DE HISTÓRICO -->
                     <div class="card">
                         <div class="card-header">
@@ -445,9 +497,11 @@
 
     <!-- SCRIPTS -->
     <script src="js/utils/helpers.js"></script>
+    <script src="js/modules/auth.js"></script>
     <script src="js/modules/estoque.js"></script>
     <script src="js/modules/qualidade.js"></script>
     <script src="js/main.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/auth-ui.js"></script>
 </body>
 </html>
