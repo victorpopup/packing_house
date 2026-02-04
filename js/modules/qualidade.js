@@ -328,7 +328,6 @@ let qualidade;
 
 document.addEventListener('DOMContentLoaded', () => {
     qualidade = new Qualidade();
-    console.log('✅ Módulo de Qualidade iniciado');
 });
 
 // Funções wrapper para chamadas do HTML
