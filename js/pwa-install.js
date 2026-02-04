@@ -146,7 +146,5 @@ document.head.appendChild(style);
 
 // Verificar se já está instalado
 if (window.matchMedia('(display-mode: standalone)').matches) {
-    console.log('App já está instalado no dispositivo');
 } else {
-    console.log('App pode ser instalado');
 }

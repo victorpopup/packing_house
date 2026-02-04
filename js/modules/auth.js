@@ -13,7 +13,6 @@ class AuthSystem {
     inicializar() {
         // Não criar usuário admin padrão - o usuário vai criar manualmente
         if (!this.usuarios || Object.keys(this.usuarios).length === 0) {
-            console.log('Nenhum usuário cadastrado ainda. O admin precisará criar o primeiro usuário.');
         }
 
         // Verificar se há usuário logado
@@ -69,18 +68,11 @@ class AuthSystem {
     }
 
     mostrarLogin() {
-        console.log('mostrarLogin chamado');
-        console.log('Usuários existentes:', this.usuarios);
-        console.log('Quantidade de usuários:', Object.keys(this.usuarios || {}).length);
-        
         // Se não existir usuários, mostrar formulário para criar o primeiro
         if (!this.usuarios || Object.keys(this.usuarios).length === 0) {
-            console.log('Mostrando criação do primeiro usuário');
             this.mostrarCriacaoPrimeiroUsuario();
             return;
         }
-
-        console.log('Mostrando login normal');
         document.getElementById('loginScreen').style.display = 'flex';
         document.getElementById('mainSystem').style.display = 'none';
     }
@@ -301,10 +293,6 @@ class AuthSystem {
     }
 
     adicionarUsuario(dadosUsuario) {
-        console.log('adicionarUsuario chamado com:', dadosUsuario);
-        console.log('this.usuarioAtual:', this.usuarioAtual);
-        console.log('verificarPermissao resultado:', this.verificarPermissao('configuracao', 'editar'));
-        
         // Se não existir nenhum usuário, o primeiro será admin automaticamente
         if (!this.usuarios || Object.keys(this.usuarios).length === 0) {
             dadosUsuario.nivel = 'admin';
@@ -319,18 +307,14 @@ class AuthSystem {
         }
 
         if (!this.verificarPermissao('configuracao', 'editar')) {
-            console.log('Sem permissão para adicionar usuário');
             mostrarNotificacao('Você não tem permissão para adicionar usuários', 'error');
             return false;
         }
 
         if (this.usuarios[dadosUsuario.usuario]) {
-            console.log('Usuário já existe:', dadosUsuario.usuario);
             mostrarNotificacao('Usuário já existe no estoque', 'warning');
             return false;
         }
-
-        console.log('Adicionando usuário...');
         this.usuarios[dadosUsuario.usuario] = {
             ...dadosUsuario,
             criadoEm: new Date().toISOString(),
@@ -338,7 +322,6 @@ class AuthSystem {
         };
 
         this.salvarUsuarios();
-        console.log('Usuário salvo com sucesso');
         mostrarNotificacao(`Usuário "${dadosUsuario.usuario}" adicionado com sucesso`, 'success');
         return true;
     }

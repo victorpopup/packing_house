@@ -435,5 +435,4 @@ function movimentar(tipo) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Packing House iniciado');
 });
