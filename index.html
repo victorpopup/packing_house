@@ -15,39 +15,73 @@
             <div class="login-card">
                 <div class="login-header">
                     <img src="image/logo.jpg" alt="Logo" style="height: 60px; margin-bottom: 15px; border-radius: 8px;">
-                    <h1>🏭 Packing House</h1>
+                    <h1>Packing House</h1>
                     <p>Sistema de Controle de Estoque</p>
                 </div>
                 
                 <form id="loginForm" onsubmit="return fazerLogin(event)">
                     <div class="form-group">
                         <label for="loginUsuario">Usuário</label>
-                        <input type="text" id="loginUsuario" class="form-input" required>
+                        <input type="text" id="loginUsuario" class="form-input" placeholder="Digite seu usuário" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="loginSenha">Senha</label>
-                        <input type="password" id="loginSenha" class="form-input" required>
-                    </div>
-                    
-                    <!-- AVISO SOBRE MODO ANÔNIMO -->
-                    <div style="background: #fff3cd; padding: 10px; border-radius: 4px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
-                        <p style="margin: 0; color: #f57c00; font-size: 0.875rem; font-weight: bold;">⚠️ Modo Anônimo Detectado</p>
-                        <p style="margin: 5px 0 0 0; color: #f57c00; font-size: 0.75rem;">
-                            Se estiver usando modo anônimo/incógnito, os dados serão apagados ao fechar o navegador. 
-                            <strong>Dica:</strong> Use o modo normal ou clique no botão abaixo.
-                        </p>
+                        <input type="password" id="loginSenha" class="form-input" placeholder="Digite sua senha" required>
                     </div>
                     
                     <button type="submit" class="btn btn-primary btn-block">
                         🚪 Entrar no Sistema
                     </button>
                     
-                    <!-- BOTÃO PARA MODO ANÔNIMO -->
-                    <button type="button" class="btn btn-secondary btn-block" onclick="criarAdminModoAnonimo()" style="margin-top: 10px;">
-                        👤 Criar Admin (Modo Anônimo)
+                    <button type="button" class="btn btn-secondary btn-block" onclick="mostrarCriacaoUsuario()" style="margin-top: 10px;">
+                        👤 Criar Novo Usuário
                     </button>
                 </form>
+                
+                <!-- FORMULÁRIO DE CRIAÇÃO DE USUÁRIO (ESCONDIDO) -->
+                <div id="formCriacaoUsuario" style="display: none;">
+                    <div class="login-header">
+                        <h1>Packing House</h1>
+                        <p>Criar Novo Usuário</p>
+                    </div>
+                    
+                    <form onsubmit="return criarNovoUsuario(event)">
+                        <div class="form-group">
+                            <label for="novoUsuario">Usuário</label>
+                            <input type="text" id="novoUsuario" class="form-input" placeholder="Escolha um nome de usuário" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="novaSenha">Senha</label>
+                            <input type="password" id="novaSenha" class="form-input" placeholder="Crie uma senha (mínimo 6 caracteres)" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmarSenha">Confirmar Senha</label>
+                            <input type="password" id="confirmarSenha" class="form-input" placeholder="Confirme sua senha" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="novoNivel">Nível de Acesso</label>
+                            <select id="novoNivel" class="form-input" required>
+                                <option value="">Selecione o nível</option>
+                                <option value="admin">Administrador</option>
+                                <option value="gerente">Gerente</option>
+                                <option value="operador">Operador</option>
+                                <option value="visualizador">Visualizador</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            👤 Criar Usuário
+                        </button>
+                        
+                        <button type="button" class="btn btn-secondary btn-block" onclick="mostrarLogin()" style="margin-top: 10px;">
+                            🔙 Voltar ao Login
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -58,7 +92,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="logo-container">
             <img src="image/logo.jpg" alt="Logo" style="height: 40px; margin-bottom: 10px; border-radius: 8px;">
-            <h1 onclick="mostrarTela('dashboard')" style="cursor: pointer; margin: 0; padding: 0;">🏭 Packing House</h1>
+            <h1 onclick="mostrarTela('dashboard')" style="cursor: pointer; margin: 0; padding: 0;">Packing House</h1>
         </div>
         <nav class="nav-menu">
             <button class="nav-item active" data-menu="estoque" onclick="mostrarTela('estoque')">
@@ -282,128 +316,13 @@
                         <button class="btn btn-primary" onclick="gerarRelatorioEstoquePDF()">
                             📥 Baixar Relatório de Estoque
                         </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- OUTROS PAGES (PLACEHOLDER) -->
-            <section id="qualidade" class="page">
-                <div class="page-header">
-                    <div>
-                        <h3>Controle de Qualidade</h3>
-                        <p class="subtitle">Registre e monitore a qualidade dos produtos</p>
+                        <p class="subtitle">Módulo em desenvolvimento</p>
                     </div>
                     <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📊 Voltar ao Dashboard</button>
                 </div>
-
-                <div class="cards-grid">
-                    <!-- CARD: INFORMAÇÕES BÁSICAS -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>👥 Responsáveis</h4>
-                        </div>
-                        <div class="card-body">
-                            <label style="display: block; margin-bottom: 10px; font-weight: bold;">Colhedora (Ficha/Nome)</label>
-                            <input type="text" id="qualColhedora" placeholder="Digite a ficha ou nome da colhedora" class="form-input">
-                            
-                            <label style="display: block; margin-top: 15px; margin-bottom: 10px; font-weight: bold;">Embaladora (Ficha/Nome)</label>
-                            <input type="text" id="qualEmbaladora" placeholder="Digite a ficha ou nome da embaladora" class="form-input">
-                        </div>
-                    </div>
-
-                    <!-- CARD: PROBLEMAS ENCONTRADOS -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>⚠️ Problemas Encontrados</h4>
-                        </div>
-                        <div class="card-body">
-                            <div style="display: grid; grid-template-columns: 1fr 80px; gap: 10px; align-items: end; margin-bottom: 10px;">
-                                <div>
-                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Tipo de Problema</label>
-                                    <select id="qualTipoProblema" class="form-input">
-                                        <option value="Mosca da Fruta">🪰 Mosca da Fruta</option>
-                                        <option value="Peso Baixo">⚖️ Peso Baixo</option>
-                                        <option value="Mancha/Lesão">🍎 Mancha/Lesão</option>
-                                        <option value="Podridão">🦠 Podridão</option>
-                                        <option value="Deformidade">🔄 Deformidade</option>
-                                        <option value="Praga">🐛 Praga</option>
-                                        <option value="Amassado">💥 Amassado</option>
-                                        <option value="Outro">❓ Outro</option>
-                                    </select>
-                                </div>
-                                <input type="number" id="qualQuantidadeProblema" placeholder="Qtd" class="form-input" min="0" value="1">
-                            </div>
-                            <button class="btn btn-primary btn-block" onclick="adicionarProblema()">Adicionar Problema</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LISTA DE PROBLEMAS REGISTRADOS -->
-                <div class="card card-full">
-                    <div class="card-header">
-                        <h4>📋 Problemas Desta Caixa</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-container">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Tipo de Problema</th>
-                                        <th>Quantidade</th>
-                                        <th>Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabelaProblemas"></tbody>
-                            </table>
-                        </div>
-                        <p id="mensagemSemProblemas" style="text-align: center; color: var(--text-secondary); padding: 20px;">Nenhum problema registrado</p>
-                    </div>
-                </div>
-
-                <!-- BOTÕES DE AÇÃO -->
-                <div class="cards-grid">
-                    <button class="btn btn-success btn-block" onclick="registrarCaixa()" style="padding: 12px; font-size: 16px;">
-                        ✅ Registrar Caixa/Contentor
-                    </button>
-                    <button class="btn btn-info btn-block" onclick="limparFormulario()" style="padding: 12px; font-size: 16px;">
-                        🔄 Limpar Formulário
-                    </button>
-                </div>
-
-                <!-- HISTÓRICO DE INSPEÇÕES -->
-                <div class="card card-full">
-                    <div class="card-header">
-                        <h4>📊 Histórico de Inspeções</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-container">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Data/Hora</th>
-                                        <th>Colhedora</th>
-                                        <th>Embaladora</th>
-                                        <th>Total de Problemas</th>
-                                        <th>Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabelaHistoricoQualidade"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RELATÓRIO EM PDF -->
-                <div class="card card-full">
-                    <div class="card-header">
-                        <h4>📄 Gerar Relatório</h4>
-                    </div>
-                    <div class="card-body">
-                        <p style="margin-bottom: 15px; color: var(--text-secondary);">Gere um relatório em PDF com todos os registros de controle de qualidade.</p>
-                        <button class="btn btn-primary" onclick="gerarRelatorioPDF()">
-                            📥 Baixar Relatório em PDF
-                        </button>
-                    </div>
+                <div class="empty-state">
+                    <span class="empty-icon">🍎</span>
+                    <p>Este módulo estará disponível em breve</p>
                 </div>
             </section>
 
@@ -417,7 +336,9 @@
                 </div>
                 <div class="empty-state">
                     <span class="empty-icon">🍎</span>
-                    <p>Este módulo estará disponível em breve</p>
+                    <h4>Módulo em Desenvolvimento</h4>
+                    <p>Esta funcionalidade estará disponível em breve. Por enquanto, utilize o módulo de Estoque para gerenciar seus materiais.</p>
+                    <button class="btn btn-primary" onclick="mostrarTela('estoque')">📦 Ir para Estoque</button>
                 </div>
             </section>
 
@@ -431,7 +352,9 @@
                 </div>
                 <div class="empty-state">
                     <span class="empty-icon">🏭</span>
-                    <p>Este módulo estará disponível em breve</p>
+                    <h4>Módulo em Desenvolvimento</h4>
+                    <p>Esta funcionalidade estará disponível em breve. Por enquanto, utilize o módulo de Estoque para gerenciar seus materiais.</p>
+                    <button class="btn btn-primary" onclick="mostrarTela('estoque')">📦 Ir para Estoque</button>
                 </div>
             </section>
 
@@ -452,18 +375,24 @@
                             <h4>👥 Gerenciar Usuários</h4>
                         </div>
                         <div class="card-body">
-                            <button class="btn btn-primary btn-block" onclick="mostrarFormularioUsuario()">
+                            <button class="btn btn-primary btn-block" onclick="mostrarFormularioAdicionarUsuario()">
                                 ➕ Adicionar Novo Usuário
                             </button>
-                            <button class="btn btn-secondary btn-block" onclick="mostrarListaUsuarios()">
-                                📋 Listar Usuários
+                            <button class="btn btn-secondary btn-block" onclick="mostrarListaUsuariosCompleta()">
+                                📋 Listar e Editar Usuários
                             </button>
-                            <button class="btn btn-info btn-block" onclick="testeBotao()">
-                                🔧 Teste Botão
-                            </button>
-                            <button class="btn btn-success btn-block" onclick="alert('Teste direto HTML!')">
-                                ⚡ Teste Direto
-                            </button>
+                        </div>
+                    </div>
+
+                    <!-- CARD: LISTA RÁPIDA DE USUÁRIOS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>👥 Usuários Cadastrados</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="listaUsuariosRapida" style="max-height: 200px; overflow-y: auto;">
+                                <p style="text-align: center; color: var(--text-secondary);">Carregando...</p>
+                            </div>
                         </div>
                     </div>
 
@@ -494,6 +423,10 @@
                                     <span id="configTotalTransacoes" style="margin-left: 10px; color: var(--primary);">0</span>
                                 </div>
                                 <div>
+                                    <span style="font-weight: bold;">Total de Usuários:</span>
+                                    <span id="configTotalUsuarios" style="margin-left: 10px; color: var(--primary);">0</span>
+                                </div>
+                                <div>
                                     <span style="font-weight: bold;">Data/Hora:</span>
                                     <span id="configDataHora" style="margin-left: 10px; color: var(--text-secondary);">-</span>
                                 </div>
@@ -502,10 +435,23 @@
                     </div>
                 </div>
             </section>
-        </div>
-    </main>
 
-    <!-- MODAL -->
+            <!-- MODAL -->
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modalTitle">Confirmação</h3>
+                        <button class="modal-close" onclick="fecharModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="modalMessage">Mensagem do modal</p>
+                        <div id="modalDetails" class="modal-details"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+                        <button class="btn btn-primary" id="modalConfirmBtn" onclick="confirmarAcao()">Confirmar</button>
+                    </div>
+                </div>
     <div id="modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -527,96 +473,22 @@
     <div id="toast" class="toast"></div>
 
     <!-- SCRIPTS -->
-    <script>
-        // Teste básico
-        console.log('Iniciando scripts...');
-        
-        // Teste função simples
-        function testeBotao() {
-            alert('Botão de teste funcionou!');
-        }
-        
-        // Função para criar admin no modo anônimo
-        function criarAdminModoAnonimo() {
-            const usuario = prompt('Digite o nome de usuário para o admin:');
-            const senha = prompt('Digite a senha para o admin:');
-            
-            if (!usuario || !senha) {
-                alert('Usuário e senha são obrigatórios!');
-                return;
-            }
-            
-            if (senha.length < 6) {
-                alert('A senha deve ter pelo menos 6 caracteres!');
-                return;
-            }
-            
-            // Criar usuário admin diretamente
-            const adminUser = {
-                usuario: usuario,
-                nome: usuario,
-                senha: senha,
-                nivel: 'admin',
-                permissoes: {
-                    dashboard: { ver: true, editar: true },
-                    estoque: { ver: true, editar: true },
-                    qualidade: { ver: true, editar: true },
-                    recepcao: { ver: true, editar: true },
-                    producao: { ver: true, editar: true },
-                    configuracao: { ver: true, editar: true }
-                },
-                criadoEm: new Date().toISOString(),
-                criadoPor: 'modo_anonimo'
-            };
-            
-            // Salvar no localStorage
-            localStorage.setItem('auth_usuarios', JSON.stringify({ [usuario]: adminUser }));
-            localStorage.setItem('auth_usuario_atual', JSON.stringify(adminUser));
-            
-            alert(`Administrador "${usuario}" criado com sucesso!`);
-            
-            // Recarregar a página
-            location.reload();
-        }
-        
-        // Adicionar ao escopo global
-        window.testeBotao = testeBotao;
-        window.criarAdminModoAnonimo = criarAdminModoAnonimo;
-        
-        console.log('Scripts básicos carregados');
-    </script>
+    <!-- Login Simplificado -->
+    <script src="js/login-simple.js"></script>
     
-    <!-- Carregar scripts essenciais primeiro -->
+    <!-- Sistema Principal -->
     <script src="js/utils/helpers.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
     
-    <script>
-        console.log('Scripts essenciais carregados');
-        
-        // Testar se as funções existem após carregar
-        setTimeout(() => {
-            console.log('Verificando funções...');
-            
-            if (typeof fazerLogout === 'undefined') {
-                console.error('fazerLogout não existe');
-            } else {
-                console.log('fazerLogout existe');
-            }
-            
-            if (typeof mostrarFormularioUsuario === 'undefined') {
-                console.error('mostrarFormularioUsuario não existe');
-            } else {
-                console.log('mostrarFormularioUsuario existe');
-            }
-        }, 2000);
-    </script>
+    <!-- Gerenciamento de Usuários -->
+    <script src="js/gerenciar-usuarios.js"></script>
     
-    <!-- Scripts dos módulos -->
-    <script src="js/modules/auth.js"></script>
+    <!-- Módulos (se existirem) -->
     <script src="js/modules/estoque.js"></script>
     <script src="js/modules/qualidade.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/auth-ui.js"></script>
+    
+    <!-- Funcionalidades extras -->
     <script src="js/pwa-install.js"></script>
     <script src="js/relatorio-estoque.js"></script>
 </body>
