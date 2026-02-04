@@ -72,10 +72,16 @@ function fazerLogout() {
 
 // Mostrar formulário de adicionar usuário
 function mostrarFormularioUsuario() {
+    console.log('mostrarFormularioUsuario chamado');
+    console.log('auth.usuarioAtual:', auth.usuarioAtual);
+    console.log('Permissão configuracao/editar:', auth.verificarPermissao('configuracao', 'editar'));
+    
     if (!auth.verificarPermissao('configuracao', 'editar')) {
         mostrarNotificacao('Você não tem permissão para adicionar usuários', 'error');
         return;
     }
+
+    console.log('Tem permissão, mostrando formulário');
 
     const formularioHtml = `
         <div style="display: grid; gap: 15px;">
@@ -112,6 +118,7 @@ function mostrarFormularioUsuario() {
         formularioHtml,
         'confirmacao',
         () => {
+            console.log('Callback do modal chamado');
             const dadosUsuario = {
                 usuario: document.getElementById('novoUsuario').value,
                 nome: document.getElementById('novoUsuario').value, // Usar nome de usuário como nome
@@ -119,6 +126,8 @@ function mostrarFormularioUsuario() {
                 nivel: document.getElementById('novoNivel').value,
                 permissoes: obterPermissoesDoFormulario()
             };
+            
+            console.log('Dados do usuário:', dadosUsuario);
 
             if (auth.adicionarUsuario(dadosUsuario)) {
                 // Limpar formulário

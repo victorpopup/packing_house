@@ -14,6 +14,7 @@
         <div class="login-container">
             <div class="login-card">
                 <div class="login-header">
+                    <img src="image/logo.jpg" alt="Logo" style="height: 60px; margin-bottom: 15px; border-radius: 8px;">
                     <h1>🏭 Packing House</h1>
                     <p>Sistema de Controle de Estoque</p>
                 </div>
@@ -42,6 +43,7 @@
     <!-- SIDEBAR NAVIGATION -->
     <aside class="sidebar" id="sidebar">
         <div class="logo-container">
+            <img src="image/logo.jpg" alt="Logo" style="height: 40px; margin-bottom: 10px; border-radius: 8px;">
             <h1 onclick="mostrarTela('dashboard')" style="cursor: pointer; margin: 0; padding: 0;">🏭 Packing House</h1>
         </div>
         <nav class="nav-menu">
@@ -253,6 +255,19 @@
                                 <tbody id="historicoTransacoes"></tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+
+                <!-- RELATÓRIO DE ESTOQUE -->
+                <div class="card card-full">
+                    <div class="card-header">
+                        <h4>📊 Relatório de Estoque</h4>
+                    </div>
+                    <div class="card-body">
+                        <p style="margin-bottom: 15px; color: var(--text-secondary);">Gere um relatório completo em PDF com todos os dados do estoque atual.</p>
+                        <button class="btn btn-primary" onclick="gerarRelatorioEstoquePDF()">
+                            📥 Baixar Relatório de Estoque
+                        </button>
                     </div>
                 </div>
             </section>
@@ -499,5 +514,7 @@
     <script src="js/main.js"></script>
     <script src="js/app.js"></script>
     <script src="js/auth-ui.js"></script>
+    <script src="js/pwa-install.js"></script>
+    <script src="js/relatorio-estoque.js"></script>
 </body>
 </html>
