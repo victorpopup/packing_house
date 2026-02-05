@@ -91,9 +91,13 @@
     <aside class="sidebar" id="sidebar">
         <div class="logo-container">
             <img src="image/logo.jpg" alt="Logo" style="height: 40px; margin-bottom: 10px; border-radius: 8px;">
-            <h1 onclick="mostrarTela('dashboard')" style="cursor: pointer; margin: 0; padding: 0;">Packing House</h1>
+            <h1 onclick="mostrarTela('resumo')" style="cursor: pointer; margin: 0; padding: 0;">Packing House</h1>
         </div>
         <nav class="nav-menu">
+            <button class="nav-item" data-menu="resumo" onclick="mostrarTela('resumo')" title="Ver resumo geral do sistema">
+                <span class="icon">📊</span>
+                <span class="label">Resumo</span>
+            </button>
             <button class="nav-item active" data-menu="estoque" onclick="mostrarTela('estoque')" title="Gerenciar estoque de materiais">
                 <span class="icon">📦</span>
                 <span class="label">Estoque</span>
@@ -133,11 +137,11 @@
 
         <!-- PAGE CONTAINER -->
         <div class="page-container">
-            <!-- DASHBOARD PAGE (HOME) -->
-            <section id="dashboard" class="page active">
+            <!-- RESUMO PAGE (HOME) -->
+            <section id="resumo" class="page active">
                 <div class="page-header">
                     <div>
-                        <h3>Dashboard</h3>
+                        <h3>Resumo</h3>
                         <p class="subtitle">Resumo geral do seu sistema</p>
                     </div>
                 </div>
@@ -214,7 +218,7 @@
             <section id="estoque" class="page">
                 <div class="page-header">
                     <div>
-                        <h3>Gestão de Estoque</h3>
+                        <h3>Estoque</h3>
                         <p class="subtitle">Cadastre e monitore seus materiais em tempo real</p>
                     </div>
                 </div>
@@ -318,7 +322,7 @@
 
                 <!-- BOTÃO VOLTAR AO RESUMO -->
                 <div style="text-align: center; margin-top: 30px;">
-                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📋 Voltar ao Resumo</button>
+                    <button class="btn btn-secondary" onclick="mostrarTela('resumo')">📋 Voltar ao Resumo</button>
                 </div>
             </section>
 
@@ -336,7 +340,7 @@
                     <button class="btn btn-primary" onclick="mostrarTela('estoque')">📦 Ir para Estoque</button>
                 </div>
                 <div style="text-align: center; margin-top: 30px;">
-                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📋 Voltar ao Resumo</button>
+                    <button class="btn btn-secondary" onclick="mostrarTela('resumo')">📋 Voltar ao Resumo</button>
                 </div>
             </section>
 
@@ -354,7 +358,7 @@
                     <button class="btn btn-primary" onclick="mostrarTela('estoque')">📦 Ir para Estoque</button>
                 </div>
                 <div style="text-align: center; margin-top: 30px;">
-                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📋 Voltar ao Resumo</button>
+                    <button class="btn btn-secondary" onclick="mostrarTela('resumo')">📋 Voltar ao Resumo</button>
                 </div>
             </section>
 
@@ -436,7 +440,7 @@
 
                 <!-- BOTÃO VOLTAR AO RESUMO -->
                 <div style="text-align: center; margin-top: 30px;">
-                    <button class="btn btn-secondary" onclick="mostrarTela('dashboard')">📋 Voltar ao Resumo</button>
+                    <button class="btn btn-secondary" onclick="mostrarTela('resumo')">📋 Voltar ao Resumo</button>
                 </div>
             </section>
 

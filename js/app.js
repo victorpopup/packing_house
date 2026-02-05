@@ -4,11 +4,11 @@
  * Versão: 2.0 - Otimizada e modular
  */
 
-// ==================== CLASSE ESTOQUE ====================
-class Estoque {
+// ==================== CLASSE PACKING ====================
+class Packing {
     constructor() {
-        this.materiais = this.carregarDados('estoque_materiais') || {};
-        this.transacoes = this.carregarDados('estoque_transacoes') || [];
+        this.materiais = this.carregarDados('packing_materiais') || {};
+        this.transacoes = this.carregarDados('packing_transacoes') || [];
         this.debounceTimers = new Map();
         this.inicializar();
     }
@@ -270,7 +270,7 @@ class Estoque {
                 </span>
             </td>
             <td>
-                <button onclick="estoque.deletarMaterial('${this.escapeHtml(material)}')" 
+                <button onclick="packing.deletarMaterial('${this.escapeHtml(material)}')" 
                         class="btn btn-danger" 
                         title="Remover material">
                     🗑️ Remover
@@ -421,8 +421,8 @@ class Estoque {
     }
 
     salvarEstoque() {
-        this.salvarDados('estoque_materiais', this.materiais);
-        this.salvarDados('estoque_transacoes', this.transacoes);
+        this.salvarDados('packing_materiais', this.materiais);
+        this.salvarDados('packing_transacoes', this.transacoes);
     }
 
     carregarDados(chave) {
@@ -430,7 +430,6 @@ class Estoque {
             const dados = localStorage.getItem(chave);
             return dados ? JSON.parse(dados) : null;
         } catch (erro) {
-            // Erro ao carregar dados
             return null;
         }
     }
@@ -462,12 +461,17 @@ class Estoque {
 }
 
 // ==================== INSTÂNCIA GLOBAL ====================
-const estoque = new Estoque();
+let packing;
+
+// Inicializar quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', () => {
+    packing = new Packing();
+});
+
 // ==================== FUNÇÕES GLOBAIS ====================
 function adicionarMaterial() {
     const nome = document.getElementById('nomeMaterial').value;
-    if (estoque.adicionarMaterial(nome)) {
-        // Limpar campo após sucesso
+    if (packing && packing.adicionarMaterial(nome)) {
         document.getElementById('nomeMaterial').value = '';
     }
 }
@@ -475,8 +479,7 @@ function adicionarMaterial() {
 function movimentar(tipo) {
     const material = document.getElementById('materialMov').value;
     const quantidade = document.getElementById('quantidadeMov').value;
-    if (estoque.movimentar(material, quantidade, tipo)) {
-        // Limpar campos após sucesso
+    if (packing && packing.movimentar(material, quantidade, tipo)) {
         document.getElementById('materialMov').value = '';
         document.getElementById('quantidadeMov').value = '';
     }

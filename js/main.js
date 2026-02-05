@@ -7,7 +7,7 @@
 // ==================== SISTEMA DE NAVEGAÇÃO ====================
 class Navegacao {
     constructor() {
-        this.paginaAtual = 'dashboard';
+        this.paginaAtual = 'resumo';
         this.historicoNavegacao = [];
         this.animacoesAtivadas = true;
         this.breakpoints = {
@@ -19,7 +19,6 @@ class Navegacao {
 
     inicializar() {
         this.configurarEventListenersGlobais();
-        this.configurarObservadores();
         this.inicializarSistema();
     }
 
@@ -42,26 +41,12 @@ class Navegacao {
         });
     }
 
-    configurarObservadores() {
-        // Observer para mudanças na página
-        if ('MutationObserver' in window) {
-            this.observerPagina = new MutationObserver(() => {
-                this.aoMudarPagina();
-            });
-            
-            this.observerPagina.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
-        }
-    }
-
     inicializarSistema() {
         // Inicializar relógio
         this.inicializarRelogio();
         
         // Carregar página inicial
-        const paginaSalva = localStorage.getItem('paginaAtual') || 'dashboard';
+        const paginaSalva = localStorage.getItem('paginaAtual') || 'resumo';
         this.mostrarTela(paginaSalva, false);
         
         // Configurar busca
@@ -97,20 +82,23 @@ class Navegacao {
         // Salvar preferência
         localStorage.setItem('paginaAtual', telaNome);
         
+        // Fechar sidebar ao navegar
+        this.fecharSidebar();
+        
         // Executar transição
         this.executarTransicaoPagina(telaNome, paginaAnterior);
     }
 
     validarPagina(telaNome) {
         const paginasValidas = [
-            'dashboard', 'estoque', 'qualidade', 
+            'resumo', 'estoque', 'qualidade', 
             'recepcao', 'producao', 'configuracao'
         ];
         return paginasValidas.includes(telaNome);
     }
 
     adicionarAoHistorico(pagina) {
-        if (pagina && pagina !== 'dashboard') {
+        if (pagina && pagina !== 'resumo') {
             this.historicoNavegacao.push(pagina);
             // Manter apenas últimos 10 itens no histórico
             if (this.historicoNavegacao.length > 10) {
@@ -146,7 +134,7 @@ class Navegacao {
         if (!pageTitle) return;
         
         const titulos = {
-            dashboard: 'Dashboard',
+            resumo: 'Resumo',
             estoque: 'Estoque',
             qualidade: 'Controle de Qualidade',
             recepcao: 'Recepção de Fruta',
@@ -167,13 +155,8 @@ class Navegacao {
         menuItems.forEach(item => item.classList.remove('active'));
         
         // Adicionar classe active ao item clicado
-        if (telaNome !== 'dashboard') {
-            const itemAtivo = document.querySelector(`[data-menu="${telaNome}"]`);
-            itemAtivo?.classList.add('active');
-        } else {
-            // Dashboard não tem item no menu - ativar primeiro
-            menuItems[0]?.classList.add('active');
-        }
+        const itemAtivo = document.querySelector(`[data-menu="${telaNome}"]`);
+        itemAtivo?.classList.add('active');
     }
     
     atualizarConteudo(telaNome) {
@@ -205,7 +188,7 @@ class Navegacao {
     configurarPaginaEspecifica(telaNome) {
         // Configurações específicas para cada página
         const configuracoes = {
-            dashboard: () => this.configurarDashboard(),
+            resumo: () => this.configurarResumo(),
             estoque: () => this.configurarEstoque(),
             qualidade: () => this.configurarQualidade(),
             configuracao: () => this.configurarConfiguracao()
@@ -216,20 +199,7 @@ class Navegacao {
         }
     }
 
-    configurarDashboard() {
-        if (typeof estoque !== 'undefined') {
-            estoque.atualizarDashboard();
-        }
-    }
-
-    configurarEstoque() {
-        if (typeof estoque !== 'undefined') {
-            estoque.atualizarHistorico();
-        }
-    }
-
     configurarQualidade() {
-        // Configurações específicas da página de qualidade
         if (typeof qualidade !== 'undefined') {
             qualidade.atualizarHistorico();
         }
@@ -241,12 +211,19 @@ class Navegacao {
         }
     }
 
-    aposNavegacao(telaNome, paginaAnterior) {
-        // Fechar sidebar em mobile
-        if (window.innerWidth <= this.breakpoints.mobile) {
-            this.fecharSidebar();
+    configurarResumo() {
+        if (typeof packing !== 'undefined') {
+            packing.atualizarDashboard();
         }
-        
+    }
+
+    configurarEstoque() {
+        if (typeof packing !== 'undefined') {
+            packing.atualizarHistorico();
+        }
+    }
+
+    aposNavegacao(telaNome, paginaAnterior) {
         // Scroll ao topo
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
@@ -439,7 +416,7 @@ class Navegacao {
         // Alt + número para navegação rápida
         if (e.altKey) {
             const atalhos = {
-                '1': 'dashboard',
+                '1': 'resumo',
                 '2': 'estoque',
                 '3': 'qualidade',
                 '4': 'recepcao',
@@ -475,24 +452,12 @@ class Navegacao {
         this.animacoesAtivadas = window.innerWidth > this.breakpoints.mobile;
     }
 
-    aoMudarPagina() {
-        // Callback para quando a página muda
-        // Pode ser usado para analytics, logging, etc.
-    }
-
-    prevenirDuploNavegacao(elemento) {
-        elemento.style.pointerEvents = 'none';
-        setTimeout(() => {
-            elemento.style.pointerEvents = '';
-        }, 300);
-    }
-
     voltar() {
         if (this.historicoNavegacao.length > 0) {
             const paginaAnterior = this.historicoNavegacao.pop();
             this.mostrarTela(paginaAnterior, false);
         } else {
-            this.mostrarTela('dashboard');
+            this.mostrarTela('resumo');
         }
     }
 
@@ -505,6 +470,21 @@ class Navegacao {
         if (buscaInput && this.paginaAtual === 'estoque') {
             buscaInput.focus();
         }
+    }
+
+    prevenirDuploNavegacao(elemento) {
+        // Verificar se já está processando para evitar múltiplos cliques
+        if (elemento.dataset.processando) {
+            return;
+        }
+        
+        elemento.dataset.processando = 'true';
+        elemento.style.pointerEvents = 'none';
+        
+        setTimeout(() => {
+            elemento.style.pointerEvents = '';
+            delete elemento.dataset.processando;
+        }, 300);
     }
 
     // ==================== MÉTODOS PÚBLICOS ====================
