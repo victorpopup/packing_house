@@ -69,11 +69,21 @@ class Navegacao {
     }
     
     mostrarTela(telaNome, adicionarAoHistorico = true) {
+        console.log('mostrarTela chamada com:', telaNome);
+        
         // Validação
-        if (!this.validarPagina(telaNome)) return;
+        if (!this.validarPagina(telaNome)) {
+            console.log('Página inválida:', telaNome);
+            return;
+        }
         
         // Previnir navegação desnecessária
-        if (this.paginaAtual === telaNome) return;
+        if (this.paginaAtual === telaNome) {
+            console.log('Já está na página:', telaNome);
+            return;
+        }
+        
+        console.log('Navegando de', this.paginaAtual, 'para', telaNome);
         
         // Adicionar ao histórico
         if (adicionarAoHistorico) {
@@ -520,7 +530,13 @@ const navegacao = new Navegacao();
 
 // ==================== FUNÇÕES LEGADO (COMPATIBILIDADE) ====================
 function mostrarTela(telaNome) {
-    navegacao.mostrarTela(telaNome);
+    console.log('Função legado mostrarTela chamada com:', telaNome);
+    console.log('Objeto navegacao:', navegacao);
+    if (navegacao && typeof navegacao.mostrarTela === 'function') {
+        navegacao.mostrarTela(telaNome);
+    } else {
+        console.error('Objeto navegacao não encontrado ou método mostrarTela não existe');
+    }
 }
 
 function toggleSidebar() {

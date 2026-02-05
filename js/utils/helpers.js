@@ -659,10 +659,6 @@ function limparInput(idInput) {
     return utils.limparInput(idInput);
 }
 
-function mostrarNotificacao(mensagem, tipo = 'success', opcoes = {}) {
-    return utils.mostrarNotificacao(mensagem, tipo, opcoes);
-}
-
 // Exportar para uso em módulos
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = utils;

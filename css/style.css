@@ -151,124 +151,6 @@ body {
 /* ============================================
    RESPONSIVE DESIGN & ACCESSIBILITY
    ============================================ */
-@media (max-width: 768px) {
-    .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        z-index: 1001;
-    }
-    
-    .sidebar.active,
-    .sidebar.open {
-        transform: translateX(0);
-    }
-    
-    .sidebar-overlay {
-        display: block !important;
-        animation: fadeIn 0.3s ease;
-    }
-    
-    .main-content {
-        margin-left: 0;
-    }
-    
-    .menu-toggle {
-        display: block;
-    }
-    
-    .cards-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .page-container {
-        padding: 15px;
-    }
-    
-    .top-bar {
-        padding: 15px;
-    }
-    
-    .user-info {
-        flex-direction: column;
-        gap: 8px;
-        align-items: flex-end;
-    }
-    
-    .login-card {
-        padding: 20px;
-        margin: 10px;
-    }
-    
-    .nav-item .badge {
-        top: 5px;
-        right: 5px;
-        width: 18px;
-        height: 18px;
-        font-size: 10px;
-    }
-    
-    /* Tooltip adjustments for mobile */
-    [title]:hover::after {
-        display: none;
-    }
-    
-    /* Better touch targets */
-    .btn {
-        min-height: 44px;
-        padding: 12px 16px;
-    }
-    
-    .form-input {
-        min-height: 44px;
-        padding: 12px;
-    }
-    
-    /* Menu toggle button styles */
-    .menu-toggle {
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: var(--radius);
-        padding: 8px 12px;
-        cursor: pointer;
-        font-size: 18px;
-        transition: var(--transition);
-    }
-    
-    .menu-toggle:hover {
-        background: var(--primary-dark);
-        transform: scale(1.05);
-    }
-    
-    .menu-toggle:focus {
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-    }
-}
-
-@media (max-width: 480px) {
-    .cards-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .card {
-        margin-bottom: 15px;
-    }
-    
-    .stat-card {
-        padding: 15px;
-    }
-    
-    .table-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    .data-table {
-        min-width: 500px;
-    }
-}
 
 /* Accessibility improvements */
 .sr-only {
@@ -373,17 +255,6 @@ body {
     margin: 5px 0;
     font-size: 0.875rem;
     color: var(--text-secondary);
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.user-name {
-    font-weight: 600;
-    color: var(--primary);
 }
 
 .btn-sm {
@@ -1092,6 +963,10 @@ body {
         left: -100%;
     }
 
+    .sidebar.open {
+        left: 0;
+    }
+
     .logo-container h1 {
         font-size: 1.2rem;
     }
@@ -1143,7 +1018,6 @@ body {
     .stat-value {
         font-size: 1.8rem;
     }
-
     .button-group {
         flex-direction: column;
     }
@@ -1165,12 +1039,83 @@ body {
     }
 
     .data-table th,
-    .data-table td {
-        padding: 8px;
-    }
-
     .shortcuts-grid {
         grid-template-columns: 1fr;
+    }
+
+    .menu-toggle {
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius);
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: var(--transition);
+    }
+
+    .menu-toggle:hover {
+        background: var(--primary-dark);
+        transform: scale(1.05);
+    }
+
+    .menu-toggle:focus {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table {
+        min-width: 500px;
+    }
+
+    .user-info {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-end;
+    }
+
+    .login-card {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .nav-item .badge {
+        top: 5px;
+        right: 5px;
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+    }
+
+    .top-bar {
+        padding: 15px;
+    }
+
+    .btn {
+        min-height: 44px;
+        padding: 12px 16px;
+    }
+
+    .form-input {
+        min-height: 44px;
+        padding: 12px;
+    }
+
+    [title]:hover::after {
+        display: none;
     }
 }
 

@@ -1,11 +1,11 @@
-/* filepath: d:\Documents\meus_projetos\packing_house\js\relatorio-estoque.js */
+/* filepath: d:\Documents\meus_projetos\packing_house\js\relatorio-packing.js */
 /**
  * Relatório de Packing em PDF
  */
 
 // Gerar relatório de packing em PDF
-function gerarRelatorioEstoquePDF() {
-    if (!auth.verificarPermissao('estoque', 'ver')) {
+function gerarRelatorioPackingPDF() {
+    if (!auth.verificarPermissao('packing', 'ver')) {
         mostrarNotificacao('Você não tem permissão para ver relatórios de packing', 'error');
         return;
     }
@@ -16,7 +16,7 @@ function gerarRelatorioEstoquePDF() {
         const script = document.createElement('script');
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
         script.onload = () => {
-            gerarRelatorioEstoquePDF();
+            gerarRelatorioPackingPDF();
         };
         document.head.appendChild(script);
         return;
@@ -25,9 +25,9 @@ function gerarRelatorioEstoquePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Obter dados do estoque
-    const materiais = estoque.materiais;
-    const transacoes = estoque.transacoes;
+    // Obter dados do packing
+    const materiais = packing.materiais;
+    const transacoes = packing.transacoes;
     const dataAtual = formatarDataHora(new Date());
     const usuarioAtual = auth.usuarioAtual;
 
@@ -173,4 +173,4 @@ function gerarRelatorioEstoquePDF() {
 }
 
 // Adicionar ao escopo global
-window.gerarRelatorioEstoquePDF = gerarRelatorioEstoquePDF;
+window.gerarRelatorioPackingPDF = gerarRelatorioPackingPDF;

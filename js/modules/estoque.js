@@ -1,16 +1,16 @@
-/* filepath: d:\Documents\meus_projetos\packing_house\js\modules\estoque.js */
+/* filepath: d:\Documents\meus_projetos\packing_house\js\modules\packing.js */
 /**
- * Módulo de Estoque
- * Extensões e utilitários para a classe Estoque
+ * Módulo de Packing
+ * Extensões e utilitários para a classe Packing
  */
 
-// Extender a classe Estoque com métodos adicionais
-if (typeof Estoque !== 'undefined') {
-    Estoque.prototype.obterTotal = function() {
+// Extender a classe Packing com métodos adicionais
+if (typeof Packing !== 'undefined') {
+    Packing.prototype.obterTotal = function() {
         return Object.values(this.materiais).reduce((a, b) => a + b, 0);
     };
 
-    Estoque.prototype.obterMaterialComMaiorQuantidade = function() {
+    Packing.prototype.obterMaterialComMaiorQuantidade = function() {
         let maior = { material: null, quantidade: 0 };
         Object.entries(this.materiais).forEach(([mat, qtd]) => {
             if (qtd > maior.quantidade) {
@@ -20,7 +20,7 @@ if (typeof Estoque !== 'undefined') {
         return maior;
     };
 
-    Estoque.prototype.gerarRelatorio = function() {
+    Packing.prototype.gerarRelatorio = function() {
         return {
             total: this.obterTotal(),
             totalMateriais: Object.keys(this.materiais).length,
@@ -30,7 +30,7 @@ if (typeof Estoque !== 'undefined') {
         };
     };
 
-    Estoque.prototype.exportarDados = function() {
+    Packing.prototype.exportarDados = function() {
         const dados = {
             materiais: this.materiais,
             transacoes: this.transacoes,

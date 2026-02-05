@@ -1,4 +1,4 @@
-# 🏭 Packing House - Sistema Moderno de Controle de Estoque
+# 🏭 Packing House - Sistema Moderno de Controle de Packing
 
 ## ✨ Modernizações Implementadas
 
@@ -8,11 +8,11 @@ Seu sistema foi completamente modernizado mantendo toda a lógica original! Aqui
 
 - **Página inicial com resumos visuais** de todo o sistema
 - **Cards estatísticos** mostrando:
-  - Total de itens em estoque
+  - Total de itens em packing
   - Quantidade de materiais cadastrados
   - Total de transações realizadas
   - Total de entradas e saídas
-  - Material com maior quantidade em estoque
+  - Material com maior quantidade em packing
 - **Últimas transações** em tempo real
 - **Atalhos rápidos** para cada módulo
 - **Atualização automática** ao retornar do dashboard
@@ -32,7 +32,7 @@ Seu sistema foi completamente modernizado mantendo toda a lógica original! Aqui
 - **Dashboard com Estatísticas**: Visão geral completa do sistema
 - **Notificações Toast Modernas**: Substituindo alerts chatos por notificações elegantes
 - **Relógio em Tempo Real**: Mostra a hora atual na top bar
-- **Busca Dinâmica**: Busque materiais em tempo real no estoque
+- **Busca Dinâmica**: Busque materiais em tempo real no packing
 - **Badges Coloridos**: Mostra status de quantidade (entrada/saída) com cores
 - **Menu Mobile**: Sidebar colapsável em dispositivos pequenos
 - **Animações Suaves**: Transições e efeitos de UI refinados
@@ -41,14 +41,14 @@ Seu sistema foi completamente modernizado mantendo toda a lógica original! Aqui
 
 - **Estrutura HTML5 Semântica**: Código bem organizado com `<main>`, `<section>`, `<aside>`
 - **CSS com Variáveis**: Facilita manutenção com `--primary`, `--success`, etc
-- **Ordem de Carregamento Correta**: helpers.js → estoque.js → main.js → app.js
+- **Ordem de Carregamento Correta**: helpers.js → packing.js → main.js → app.js
 - **Funções Auxiliares Expandidas**: Nova função `mostrarNotificacao()` para melhor UX
 - **Código Limpo e Documentado**: Comentários claros e estrutura profissional
 - **Método `atualizarDashboard()`**: Mantém estatísticas sempre atualizadas
 
 ### 🎯 **Mantido da Versão Original**
 
-✅ Sistema de Estoque funcional  
+✅ Sistema de Packing funcional  
 ✅ Cadastro de Materiais  
 ✅ Entrada/Saída de Produtos  
 ✅ Histórico de Transações  
@@ -63,10 +63,10 @@ packing_house/
 ├── css/
 │   └── style.css          # Design profissional com variáveis
 ├── js/
-│   ├── app.js             # Classe Estoque e lógica principal
+│   ├── app.js             # Classe Packing e lógica principal
 │   ├── main.js            # Navegação, relógio e eventos
 │   ├── modules/
-│   │   └── estoque.js     # Extensões da classe Estoque
+│   │   └── packing.js     # Extensões da classe Packing
 │   └── utils/
 │       └── helpers.js     # Funções utilitárias
 ├── image/                 # Pasta de imagens (mantida)
@@ -81,8 +81,8 @@ packing_house/
 3. **Use os atalhos rápidos** para ir para cada módulo
 4. **Clique no logo** a qualquer momento para voltar ao dashboard
 
-### Módulo de Estoque
-1. **Clique em "Estoque"** na sidebar ou no dashboard
+### Módulo de Packing
+1. **Clique em "Packing"** na sidebar ou no dashboard
 2. **Adicione Materiais** no card "Novo Material"
 3. **Registre Movimentações** usando entrada/saída
 4. **Acompanhe o Histórico** em tempo real
@@ -97,8 +97,8 @@ packing_house/
 ## 💾 Dados Persistentes
 
 Todos os dados são salvos no **localStorage** do navegador:
-- `estoque_materiais`: Todos os materiais e quantidades
-- `estoque_transacoes`: Histórico completo de movimentações
+- `packing_materiais`: Todos os materiais e quantidades
+- `packing_transacoes`: Histórico completo de movimentações
 
 Os dados **persistem** mesmo após fechar o navegador!
 
@@ -133,7 +133,7 @@ Os dados **persistem** mesmo após fechar o navegador!
 - Adicionar gráficos com Chart.js
 - Exportar dados como PDF/Excel
 - Adicionar backup na nuvem
-- Sistema de alertas para estoque baixo
+- Sistema de alertas para packing baixo
 - Filtragem avançada de transações
 - Tema escuro (dark mode)
 - Gerenciamento de usuários
