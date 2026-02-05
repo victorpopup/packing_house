@@ -465,8 +465,54 @@ let packing;
 
 // Inicializar quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', () => {
+    // Migrar dados existentes antes de criar nova instância
+    migrarDados();
     packing = new Packing();
 });
+
+// ==================== FUNÇÃO DE MIGRAÇÃO ====================
+function migrarDados() {
+    try {
+        // Verificar se existem dados antigos
+        const materiaisAntigos = localStorage.getItem('estoque_materiais');
+        const transacoesAntigas = localStorage.getItem('estoque_transacoes');
+        
+        // Verificar se já existe dados novos
+        const materiaisNovos = localStorage.getItem('packing_materiais');
+        const transacoesNovas = localStorage.getItem('packing_transacoes');
+        
+        // Migrar apenas se existir dados antigos E não existir dados novos
+        if ((materiaisAntigos || transacoesAntigas) && !materiaisNovos && !transacoesNovas) {
+            console.log('🔄 Migrando dados do estoque para packing...');
+            
+            // Migrar materiais
+            if (materiaisAntigos) {
+                localStorage.setItem('packing_materiais', materiaisAntigos);
+                localStorage.removeItem('estoque_materiais');
+                console.log('✅ Materiais migrados com sucesso');
+            }
+            
+            // Migrar transações
+            if (transacoesAntigas) {
+                localStorage.setItem('packing_transacoes', transacoesAntigas);
+                localStorage.removeItem('estoque_transacoes');
+                console.log('✅ Transações migradas com sucesso');
+            }
+            
+            console.log('🎉 Migração concluída! Dados preservados.');
+            return true;
+        } else if (materiaisNovos || transacoesNovas) {
+            console.log('ℹ️ Dados novos já existem, migração não necessária.');
+            return false;
+        } else {
+            console.log('ℹ️ Nenhum dado encontrado para migrar.');
+            return false;
+        }
+    } catch (erro) {
+        console.error('❌ Erro na migração:', erro);
+        return false;
+    }
+}
 
 // ==================== FUNÇÕES GLOBAIS ====================
 function adicionarMaterial() {
