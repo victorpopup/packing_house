@@ -155,10 +155,17 @@ body {
     .sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
+        z-index: 1001;
     }
     
-    .sidebar.active {
+    .sidebar.active,
+    .sidebar.open {
         transform: translateX(0);
+    }
+    
+    .sidebar-overlay {
+        display: block !important;
+        animation: fadeIn 0.3s ease;
     }
     
     .main-content {
@@ -214,6 +221,28 @@ body {
     .form-input {
         min-height: 44px;
         padding: 12px;
+    }
+    
+    /* Menu toggle button styles */
+    .menu-toggle {
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius);
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: var(--transition);
+    }
+    
+    .menu-toggle:hover {
+        background: var(--primary-dark);
+        transform: scale(1.05);
+    }
+    
+    .menu-toggle:focus {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
     }
 }
 
