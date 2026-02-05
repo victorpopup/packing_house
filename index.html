@@ -95,23 +95,24 @@
             <h1 onclick="mostrarTela('dashboard')" style="cursor: pointer; margin: 0; padding: 0;">Packing House</h1>
         </div>
         <nav class="nav-menu">
-            <button class="nav-item active" data-menu="estoque" onclick="mostrarTela('estoque')">
+            <button class="nav-item active" data-menu="estoque" onclick="mostrarTela('estoque')" title="Gerenciar estoque de materiais">
                 <span class="icon">📦</span>
                 <span class="label">Estoque</span>
+                <span class="badge" id="estoqueBadge" style="display: none;">0</span>
             </button>
-            <button class="nav-item" data-menu="qualidade" onclick="mostrarTela('qualidade')">
+            <button class="nav-item" data-menu="qualidade" onclick="mostrarTela('qualidade')" title="Controle de qualidade">
                 <span class="icon">✅</span>
                 <span class="label">Qualidade</span>
             </button>
-            <button class="nav-item" data-menu="recepcao" onclick="mostrarTela('recepcao')">
+            <button class="nav-item" data-menu="recepcao" onclick="mostrarTela('recepcao')" title="Recepção de frutas">
                 <span class="icon">🍎</span>
                 <span class="label">Recepção</span>
             </button>
-            <button class="nav-item" data-menu="producao" onclick="mostrarTela('producao')">
+            <button class="nav-item" data-menu="producao" onclick="mostrarTela('producao')" title="Controle de produção">
                 <span class="icon">🏭</span>
                 <span class="label">Produção</span>
             </button>
-            <button class="nav-item" data-menu="configuracao" onclick="mostrarTela('configuracao')">
+            <button class="nav-item" data-menu="configuracao" onclick="mostrarTela('configuracao')" title="Configurações do sistema">
                 <span class="icon">⚙️</span>
                 <span class="label">Configuração</span>
             </button>
@@ -226,8 +227,8 @@
                             <h4>➕ Novo Material</h4>
                         </div>
                         <div class="card-body">
-                            <input type="text" id="nomeMaterial" placeholder="Nome do material" class="form-input">
-                            <button class="btn btn-primary btn-block" onclick="adicionarMaterial()">Adicionar</button>
+                            <input type="text" id="nomeMaterial" placeholder="Nome do material" class="form-input" title="Digite o nome do material que deseja adicionar ao estoque">
+                            <button class="btn btn-primary btn-block" onclick="adicionarMaterial()" title="Clique para adicionar o material ao estoque">Adicionar</button>
                         </div>
                     </div>
 
@@ -237,13 +238,13 @@
                             <h4>🔄 Movimentação</h4>
                         </div>
                         <div class="card-body">
-                            <select id="materialMov" class="form-input">
+                            <select id="materialMov" class="form-input" title="Selecione o material para movimentar">
                                 <option value="">Selecione o material</option>
                             </select>
-                            <input type="number" id="quantidadeMov" placeholder="Quantidade" class="form-input" min="1">
+                            <input type="number" id="quantidadeMov" placeholder="Quantidade" class="form-input" min="1" title="Digite a quantidade para entrada ou saída">
                             <div class="button-group">
-                                <button class="btn btn-success" onclick="movimentar('entrada')">Entrada</button>
-                                <button class="btn btn-warning" onclick="movimentar('saida')">Saída</button>
+                                <button class="btn btn-success" onclick="movimentar('entrada')" title="Adicionar quantidade ao estoque">Entrada</button>
+                                <button class="btn btn-warning" onclick="movimentar('saida')" title="Remover quantidade do estoque">Saída</button>
                             </div>
                         </div>
                     </div>
@@ -263,7 +264,7 @@
                 <div class="card card-full">
                     <div class="card-header">
                         <h4>📊 Estoque Atual</h4>
-                        <input type="text" id="buscarEstoque" placeholder="🔍 Buscar..." class="form-input search-input">
+                        <input type="text" id="buscarEstoque" placeholder="🔍 Buscar..." class="form-input search-input" title="Digite para buscar materiais no estoque">
                     </div>
                     <div class="card-body">
                         <div class="table-container">
@@ -310,7 +311,7 @@
                     </div>
                     <div class="card-body">
                         <p style="margin-bottom: 15px; color: var(--text-secondary);">Gere um relatório completo em PDF com todos os dados do estoque atual.</p>
-                        <button class="btn btn-primary" onclick="gerarRelatorioEstoquePDF()">
+                        <button class="btn btn-primary" onclick="gerarRelatorioEstoquePDF()" title="Gerar relatório em PDF com dados do estoque">
                             📥 Baixar Relatório de Estoque
                         </button>
                     </div>
